@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Acceso Restringido - GC ACADEMIA{% endblock %}
+
+{% block content %}
+<div class="bg-parchment/95 backdrop-blur-sm rounded-xl overflow-hidden parchment-shadow border-4 border-ink/20 relative">
+    
+    <!-- Borde con los 4 colores (homenaje sutil) -->
+    <div class="h-2 w-full house-border-top"></div>
+    
+    <!-- Contenedor principal -->
+    <div class="relative z-10 px-6 py-10 text-center">
+        
+        <!-- Escudo con los 4 colores -->
+        <div class="shield-container relative w-32 h-32 mx-auto mb-8 group">
+            <!-- Fondo con efecto mágico -->
+            <div class="absolute inset-0 bg-gradient-to-br from-gryffindor via-slytherin via-33% via-ravenclaw via-66% to-hufflepuff rounded-full opacity-10 blur-2xl animate-pulse-slow"></div>
+            
+            <!-- Escudo principal -->
+            <div class="relative w-full h-full bg-parchment rounded-full border-4 border-ink shadow-2xl flex items-center justify-center overflow-hidden">
+                <!-- Cuartos del escudo con colores -->
+                <div class="absolute inset-0 grid grid-cols-2 grid-rows-2">
+                    <div class="bg-gryffindor/15 border-r-2 border-b-2 border-ink"></div>
+                    <div class="bg-slytherin/15 border-b-2 border-ink"></div>
+                    <div class="bg-ravenclaw/15 border-r-2 border-ink"></div>
+                    <div class="bg-hufflepuff/15 border-ink"></div>
+                </div>
+                
+                <!-- Icono central -->
+                <div class="relative z-10 w-20 h-20 bg-ink rounded-full flex items-center justify-center border-2 border-parchment">
+                    <span class="material-symbols-outlined text-5xl text-parchment">school</span>
+                </div>
+                
+                <!-- Brillo -->
+                <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
+            </div>
+        </div>
+
+        <!-- Título principal -->
+        <h1 class="font-heading font-black text-4xl text-ink mb-2 tracking-wide">
+            ACCESO RESTRINGIDO
+        </h1>
+
+        <!-- Subtítulo -->
+        <p class="font-heading font-bold text-lg text-ink/70 mb-6 tracking-wider">
+            GC ACADEMIA • PROTOCOLOS DE SEGURIDAD
+        </p>
+
+        <!-- Mensaje -->
+        <div class="message bg-parchment-dark border-2 border-ink/30 rounded-lg p-6 mb-8 mx-auto max-w-2xl">
+            <p class="font-body text-lg text-ink leading-relaxed">
+                <span class="material-symbols-outlined align-middle text-xl mr-2">warning</span>
+                <strong>No se han detectado credenciales académicas activas.</strong><br><br>
+                Para acceder a la plataforma educativa, es necesaria una inscripción previa en nuestros cursos.<br><br>
+                Explora nuestro catálogo y únete a nuestra comunidad de aprendizaje.
+            </p>
+        </div>
+
+        <!-- Botones de navegación -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 max-w-3xl mx-auto">
+            <a href="{{ url_for('alumno.catalogo') }}" class="btn-action group relative overflow-hidden bg-gradient-to-br from-gryffindor to-gryffindor/80 hover:from-gryffindor/90 hover:to-gryffindor/70 text-parchment font-heading font-bold text-sm uppercase tracking-widest py-4 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-gryffindor/50 hover:border-gryffindor">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span class="material-symbols-outlined text-xl mr-2">menu_book</span>
+                Explorar Catálogo
+            </a>
+            
+            <a href="{{ url_for('alumno.chat') }}" class="btn-action group relative overflow-hidden bg-gradient-to-br from-slytherin to-slytherin/80 hover:from-slytherin/90 hover:to-slytherin/70 text-parchment font-heading font-bold text-sm uppercase tracking-widest py-4 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-slytherin/50 hover:border-slytherin">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span class="material-symbols-outlined text-xl mr-2">mail</span>
+                Mensajes
+            </a>
+            
+            <a href="{{ url_for('alumno.chat_vivo_global') }}" class="btn-action group relative overflow-hidden bg-gradient-to-br from-ravenclaw to-ravenclaw/80 hover:from-ravenclaw/90 hover:to-ravenclaw/70 text-parchment font-heading font-bold text-sm uppercase tracking-widest py-4 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-ravenclaw/50 hover:border-ravenclaw">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span class="material-symbols-outlined text-xl mr-2">groups</span>
+                Chat en Vivo
+            </a>
+            
+            <a href="{{ url_for('auth.logout') }}" class="btn-action group relative overflow-hidden bg-gradient-to-br from-hufflepuff to-hufflepuff/80 hover:from-hufflepuff/90 hover:to-hufflepuff/70 text-ink font-heading font-bold text-sm uppercase tracking-widest py-4 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-hufflepuff/50 hover:border-hufflepuff">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span class="material-symbols-outlined text-xl mr-2">logout</span>
+                Regresar al Inicio
+            </a>
+        </div>
+
+        <!-- Logo de GC ACADEMIA -->
+        <div class="mt-8">
+            <div class="inline-flex items-center gap-3 bg-ink px-6 py-2 rounded-full border-2 border-parchment">
+                <span class="material-symbols-outlined text-3xl text-parchment">menu_book</span>
+                <span class="font-heading font-bold text-xl text-parchment tracking-widest">GC ACADEMIA</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Animación de pulso lento */
+    @keyframes pulse-slow {
+        0%, 100% { transform: scale(1); opacity: 0.3; }
+        50% { transform: scale(1.05); opacity: 0.5; }
+    }
+    
+    .animate-pulse-slow {
+        animation: pulse-slow 4s ease-in-out infinite;
+    }
+    
+    /* Efecto hover en botones */
+    .btn-action:active {
+        transform: scale(0.98) translateY(2px);
+    }
+    
+    /* Efecto de brillo en el escudo */
+    @keyframes shield-glow {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.6; }
+    }
+    
+    .shield-container::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+        background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: shield-glow 3s ease-in-out infinite;
+        z-index: -1;
+    }
+    
+    /* Responsive */
+    @media (max-width: 640px) {
+        .shield-container {
+            width: 280px !important;
+            height: 280px !important;
+        }
+        
+        h1 {
+            font-size: 2.5rem !important;
+        }
+        
+        .message {
+            padding: 1.5rem !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const shield = document.querySelector('.shield-container');
+        setTimeout(() => {
+            shield.style.animation = 'pulse-slow 4s ease-in-out infinite';
+        }, 300);
+    });
+</script>
+{% endblock %}

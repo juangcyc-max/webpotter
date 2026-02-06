@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}Todos los Materiales{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[70vh]">
+    <!-- Fondo oscuro con textura de piedra antigua -->
+    <div class="absolute inset-0 bg-gradient-to-br from-background-dark via-ink/95 to-background-dark pointer-events-none"></div>
+    <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(circle at 10% 20%, rgba(139, 0, 0, 0.15) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 25%);"></div>
+    
+    <!-- Contenedor principal con estilo oscuro -->
+    <div class="relative z-10 bg-ink/95 backdrop-blur-sm rounded-xl overflow-hidden border-2 border-wax-red/30">
+        
+        <!-- Borde sutil con efecto de runas oscuras -->
+        <div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(139, 0, 0, 0.3) 10px, rgba(139, 0, 0, 0.3) 20px);"></div>
+        
+        <!-- Header oscuro y misterioso -->
+        <div class="bg-gradient-to-r from-wax-red/90 to-ink/95 px-6 py-5 border-b border-wax-red/40 relative overflow-hidden">
+            <!-- Efecto de niebla sutil -->
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(139,0,0,0.15),transparent_40%)] animate-pulse-slow"></div>
+            
+            <div class="relative z-10 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-wax-red rounded-full blur-md opacity-30"></div>
+                        <div class="relative w-12 h-12 bg-gradient-to-br from-wax-red to-red-900 rounded-xl flex items-center justify-center border-2 border-parchment/30 shadow-lg">
+                            <span class="material-symbols-outlined text-2xl text-parchment">inventory_2</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="font-heading font-bold text-xl text-parchment tracking-tight">Archivo de Conocimiento</h1>
+                        <p class="font-body text-sm text-parchment/80 mt-1">Materiales de todos tus cursos</p>
+                    </div>
+                </div>
+                
+                <!-- Badge de poder oscuro -->
+                <div class="flex items-center gap-2 bg-wax-red/20 border border-wax-red/40 px-3 py-1.5 rounded-full">
+                    <span class="material-symbols-outlined text-wax-red text-base animate-pulse">dark_mode</span>
+                    <span class="font-body font-medium text-sm text-wax-red/90">Archivado</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Frase misteriosa -->
+        <div class="px-6 py-3 bg-ink/50 border-y border-wax-red/10">
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-wax-red/10 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-wax-red text-base">psychology</span>
+                </div>
+                <p class="font-body italic text-sm text-parchment/85">
+                    <strong>"El conocimiento no tiene luz ni oscuridad; es la intención quien lo define."</strong>
+                    <span class="block text-xs text-parchment/60 mt-1">— Archivos Restringidos</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="px-6 py-8">
+            {% if documentos %}
+                <div class="space-y-4">
+                    {% for doc in documentos %}
+                        <div class="documento-card group bg-ink/40 border border-wax-red/15 rounded-xl p-5 hover:border-wax-red/40 hover:bg-ink/30 transition-all duration-300 relative overflow-hidden">
+                            <!-- Efecto de runa al hover -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-wax-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                            
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-start gap-4 flex-1 min-w-0">
+                                    <div class="w-10 h-10 rounded-lg bg-wax-red/10 flex items-center justify-center border border-wax-red/30 flex-shrink-0 mt-1">
+                                        {% if doc.tipo == 'documento' %}
+                                            <span class="material-symbols-outlined text-wax-red text-xl">description</span>
+                                        {% elif doc.tipo == 'video' %}
+                                            <span class="material-symbols-outlined text-wax-red text-xl">movie</span>
+                                        {% elif doc.tipo == 'ejercicio' %}
+                                            <span class="material-symbols-outlined text-wax-red text-xl">edit_note</span>
+                                        {% elif doc.tipo == 'presentacion' %}
+                                            <span class="material-symbols-outlined text-wax-red text-xl">slideshow</span>
+                                        {% elif doc.tipo == 'codigo' %}
+                                            <span class="material-symbols-outlined text-wax-red text-xl">code</span>
+                                        {% else %}
+                                            <span class="material-symbols-outlined text-wax-red text-xl">folder</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <h3 class="font-heading font-bold text-lg text-parchment truncate">{{ doc.titulo }}</h3>
+                                        <div class="flex items-center gap-3 mt-2">
+                                            <span class="flex items-center gap-1.5 text-sm text-parchment/70 font-body">
+                                                <span class="material-symbols-outlined text-[14px]">category</span>
+                                                <span>{{ doc.tipo.replace('_', ' ').title() }}</span>
+                                            </span>
+                                            <span class="w-1.5 h-1.5 rounded-full bg-wax-red/30"></span>
+                                            <span class="flex items-center gap-1.5 text-sm text-parchment/70 font-body">
+                                                <span class="material-symbols-outlined text-[14px]">menu_book</span>
+                                                <span>{{ doc.curso.nombre }}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botón de descarga oscuro -->
+                                <div class="flex-shrink-0 ml-4">
+                                    <a href="{{ url_for('static', filename='uploads/' + doc.ruta_archivo) }}" 
+                                       download="{{ doc.ruta_archivo }}"
+                                       class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-wax-red to-red-900 hover:from-wax-red/90 hover:to-red-800 text-parchment font-body font-bold text-sm rounded-lg shadow-sm hover:shadow-lg hover:shadow-wax-red/20 transition-all duration-300 border border-wax-red/30 group-hover:border-wax-red group-hover:scale-105">
+                                        <span class="material-symbols-outlined text-base">download</span>
+                                        <span>Descargar</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Resumen de materiales -->
+                <div class="mt-8 bg-ink/60 border border-wax-red/20 rounded-xl p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-wax-red text-2xl">inventory</span>
+                            <div>
+                                <p class="font-body font-medium text-parchment text-sm">Total de materiales archivados:</p>
+                                <p class="font-heading font-bold text-xl text-wax-red">{{ documentos|length }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm text-parchment/70 font-body">
+                            <span class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">description</span>
+                                <span>{{ documentos|selectattr('tipo', 'equalto', 'documento')|list|length }} documentos</span>
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">movie</span>
+                                <span>{{ documentos|selectattr('tipo', 'equalto', 'video')|list|length }} videos</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="flex flex-col items-center justify-center py-16 text-center bg-ink/30 rounded-xl border-2 border-dashed border-wax-red/20">
+                    <div class="relative mb-6">
+                        <div class="absolute inset-0 bg-wax-red/10 rounded-full animate-pulse-slow"></div>
+                        <div class="relative w-20 h-20 bg-ink rounded-full flex items-center justify-center border-4 border-wax-red/30 shadow-lg">
+                            <span class="material-symbols-outlined text-5xl text-wax-red/40">inventory_2</span>
+                        </div>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-parchment mb-2">🌑 Archivo Vacío</h3>
+                    <p class="font-body text-lg text-parchment/70 max-w-md">
+                        No hay materiales disponibles en tus cursos aún.
+                    </p>
+                    <p class="font-body text-sm text-parchment/50 mt-2 italic">
+                        Los materiales aparecerán aquí una vez que los profesores los publiquen.
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Footer / Botón Atrás -->
+        <div class="px-6 py-4 border-t border-wax-red/15 bg-ink/70">
+            <div class="flex justify-end">
+                <a href="{{ url_for('alumno.mis_cursos') }}" class="flex items-center gap-2 text-sm font-body font-medium text-parchment/70 hover:text-wax-red transition-colors">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    Volver a Mis Cursos
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Animación de pulso sutil */
+    @keyframes pulse-slow {
+        0%, 100% { transform: scale(1); opacity: 0.3; }
+        50% { transform: scale(1.03); opacity: 0.5; }
+    }
+    
+    .animate-pulse-slow {
+        animation: pulse-slow 4s ease-in-out infinite;
+    }
+    
+    /* Efecto hover mejorado */
+    .documento-card:active {
+        transform: scale(0.99);
+    }
+    
+    /* Scroll personalizado oscuro */
+    ::-webkit-scrollbar-thumb {
+        background: #8b0000;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .documento-card {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1rem;
+        }
+        
+        .documento-card > div:first-child {
+            width: 100%;
+        }
+        
+        .documento-card > div:last-child {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .documento-card > div:last-child a {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block title %}📅 Horarios - {{ curso.nombre }}{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[70vh]">
+    <!-- Fondo sutil de pergamino -->
+    <div class="absolute inset-0 bg-gradient-to-br from-parchment to-parchment-dark opacity-30 pointer-events-none"></div>
+    
+    <!-- Contenedor principal -->
+    <div class="relative z-10 bg-parchment/90 backdrop-blur-sm rounded-xl overflow-hidden parchment-shadow border border-ink/20">
+        
+        <!-- Header elegante -->
+        <div class="bg-gradient-to-r from-ink/95 to-ink/90 px-6 py-4 border-b border-parchment/20">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-hogwarts-gold/90 flex items-center justify-center border border-ink/30">
+                        <span class="material-symbols-outlined text-ink text-xl">schedule</span>
+                    </div>
+                    <div>
+                        <h1 class="font-heading font-bold text-lg text-parchment tracking-tight">Agendar Tutoría</h1>
+                        <p class="font-body text-sm text-parchment/80 mt-0.5">{{ curso.nombre }}</p>
+                    </div>
+                </div>
+                
+                <!-- Reloj minimalista -->
+                <div class="flex items-center gap-2 bg-ink/40 px-3 py-1.5 rounded-lg border border-parchment/30">
+                    <span class="material-symbols-outlined text-parchment text-base">schedule</span>
+                    <span id="clock-display" class="font-mono font-medium text-parchment text-sm tabular-nums"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario profesional -->
+        <div class="px-6 py-5">
+            <div class="bg-parchment rounded-lg p-5 border border-ink/15 mb-6">
+                <h2 class="font-heading font-bold text-base text-ink mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-gryffindor text-lg">add_task</span>
+                    Nueva sesión
+                </h2>
+                
+                <form method="post" class="space-y-4">
+                    <div>
+                        <label for="fecha_hora" class="block font-body font-medium text-ink/80 text-sm mb-1.5">
+                            Fecha y hora de inicio
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                                <span class="material-symbols-outlined text-ink/40 text-base">schedule</span>
+                            </div>
+                            <input type="datetime-local" name="fecha_hora" id="fecha_hora" required
+                                   class="w-full pl-9 pr-3 py-2.5 bg-parchment border border-ink/20 rounded-lg font-body text-sm text-ink focus:border-gryffindor focus:ring-1 focus:ring-gryffindor/30 focus:ring-offset-0 transition-colors">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="duracion" class="block font-body font-medium text-ink/80 text-sm mb-1.5">
+                            Duración (minutos)
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                                <span class="material-symbols-outlined text-ink/40 text-base">timer</span>
+                            </div>
+                            <input type="number" name="duracion" id="duracion" value="60" min="15" max="180" required
+                                   class="w-full pl-9 pr-3 py-2.5 bg-parchment border border-ink/20 rounded-lg font-body text-sm text-ink focus:border-gryffindor focus:ring-1 focus:ring-gryffindor/30 focus:ring-offset-0 transition-colors">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-gryffindor hover:bg-gryffindor/90 text-parchment font-body font-medium text-sm py-2.5 rounded-lg shadow-sm hover:shadow transition-colors border border-gryffindor/30">
+                        <span class="material-symbols-outlined align-middle text-base mr-1.5">schedule_send</span>
+                        Agendar sesión
+                    </button>
+                </form>
+            </div>
+
+            <!-- Lista de horarios -->
+            <div class="bg-parchment rounded-lg p-5 border border-ink/15">
+                <h2 class="font-heading font-bold text-base text-ink mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-slytherin text-lg">list_alt</span>
+                    Sesiones programadas
+                </h2>
+                
+                {% if horarios %}
+                    <div class="space-y-3">
+                        {% for h in horarios %}
+                            <div class="flex items-center justify-between p-3 bg-parchment-dark/30 rounded-lg border border-ink/10 hover:border-gryffindor/30 transition-colors">
+                                <div class="flex items-center gap-3 min-w-0 flex-1">
+                                    <div class="w-8 h-8 rounded bg-gryffindor/10 flex items-center justify-center flex-shrink-0">
+                                        <span class="material-symbols-outlined text-gryffindor text-base">schedule</span>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="font-body font-medium text-ink text-sm">
+                                            {{ h.fecha_hora.strftime('%d/%m/%Y') }}
+                                        </div>
+                                        <div class="flex items-center gap-3 text-xs text-ink/70 font-body mt-0.5">
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[14px]">schedule</span>
+                                                {{ h.fecha_hora.strftime('%H:%M') }}
+                                            </span>
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[14px]">timer</span>
+                                                {{ h.duracion_minutos }} min
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <a href="{{ url_for('profesor.eliminar_horario', horario_id=h.id) }}"
+                                   title="Eliminar sesión"
+                                   class="w-7 h-7 rounded flex items-center justify-center text-ink/60 hover:text-red-600 hover:bg-red-50/50 transition-colors">
+                                    <span class="material-symbols-outlined text-base">delete</span>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="py-8 text-center">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-ink/5 rounded-full mb-3 mx-auto">
+                            <span class="material-symbols-outlined text-2xl text-ink/40">schedule</span>
+                        </div>
+                        <p class="font-body text-sm text-ink/60">
+                            No hay sesiones programadas
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Botón de retroceso -->
+        <div class="px-6 py-4 border-t border-ink/15 bg-parchment/80">
+            <div class="flex justify-end">
+                <a href="{{ url_for('profesor.catalogo') }}" class="flex items-center gap-1.5 text-sm font-body font-medium text-ink/70 hover:text-gryffindor transition-colors">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    Volver al catálogo
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Reloj digital con números tabulares */
+    .tabular-nums {
+        font-variant-numeric: tabular-nums;
+    }
+    
+    /* Animación sutil para el reloj */
+    @keyframes subtle-pulse {
+        0%, 100% { opacity: 0.9; }
+        50% { opacity: 1; }
+    }
+    
+    #clock-display {
+        animation: subtle-pulse 2s infinite;
+    }
+</style>
+
+<script>
+    // Reloj digital minimalista
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        
+        const clockDisplay = document.getElementById('clock-display');
+        if (clockDisplay) {
+            clockDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+    }
+    
+    setInterval(updateClock, 1000);
+    updateClock();
+</script>
+{% endblock %}

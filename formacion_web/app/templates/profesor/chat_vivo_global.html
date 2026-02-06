@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}💬 Chat en Vivo Global{% endblock %}
+
+{% block content %}
+<div class="bg-parchment/95 backdrop-blur-sm rounded-xl overflow-hidden parchment-shadow border border-hufflepuff/30">
+    <!-- Header con estilo Hufflepuff -->
+    <div class="bg-gradient-to-r from-hufflepuff/15 to-transparent px-6 py-5 border-b border-hufflepuff/30">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-xl bg-hufflepuff/20 flex items-center justify-center border border-hufflepuff/40">
+                    <span class="material-symbols-outlined text-hufflepuff text-2xl">groups</span>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-heading font-bold text-ink tracking-tight">Chat en Vivo Global</h2>
+                    <p class="text-sm text-ink/60 font-body mt-1">Selecciona una tutoría activa para chatear en tiempo real con tus alumnos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de tutorías activas -->
+    <div class="px-6 py-5">
+        {% if horarios_activos %}
+            <div class="space-y-4">
+                {% for item in horarios_activos %}
+                    <div class="tutoria-card group bg-parchment border border-hufflepuff/20 rounded-xl p-5 flex items-center justify-between transition-all duration-300 hover:border-hufflepuff/40 hover:shadow-lg hover:-translate-y-1 relative overflow-hidden">
+                        <!-- Efecto de brillo Hufflepuff -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-hufflepuff/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-2">
+                                <strong class="font-heading font-bold text-lg text-ink flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-hufflepuff text-xl">menu_book</span>
+                                    {{ item.curso.nombre }}
+                                </strong>
+                                {% if item.nuevos_mensajes %}
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-hufflepuff/20 text-hufflepuff border border-hufflepuff/40 rounded-lg font-body font-bold text-xs">
+                                        <span class="material-symbols-outlined text-[14px] animate-pulse">notifications_active</span>
+                                        Nuevos mensajes
+                                    </span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="flex items-center gap-4 text-sm text-ink/70 font-body">
+                                <span class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]">schedule</span>
+                                    {{ item.horario.fecha_hora.strftime('%d/%m/%Y %H:%M') }}
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]">timer</span>
+                                    {{ item.horario.duracion_minutos }} min
+                                </span>
+                                {% if item.alumnos_conectados %}
+                                    <span class="flex items-center gap-1 bg-parchment-dark px-2.5 py-1 rounded-lg border border-ink/20">
+                                        <span class="material-symbols-outlined text-[16px]">people</span>
+                                        {{ item.alumnos_conectados }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <a href="{{ url_for('profesor.chat_vivo', curso_id=item.curso.id) }}" class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-br from-hufflepuff to-hufflepuff/80 hover:from-hufflepuff/90 hover:to-hufflepuff/70 text-ink font-heading font-bold text-sm uppercase tracking-widest rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group/btn relative overflow-hidden border-0">
+                            <!-- Efecto de brillo -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500"></div>
+                            
+                            <span class="material-symbols-outlined text-xl">chat</span>
+                            Entrar al chat
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="flex flex-col items-center justify-center h-64 text-center py-8 bg-hufflepuff/5 rounded-xl border-2 border-dashed border-hufflepuff/30">
+                <div class="mb-4 p-3 bg-parchment rounded-full shadow-sm border border-ink/10">
+                    <span class="material-symbols-outlined text-5xl text-hufflepuff">schedule</span>
+                </div>
+                <div class="text-center">
+                    <p class="font-heading font-bold text-xl text-ink mb-2">
+                         No hay tutorías activas ahora mismo.
+                    </p>
+                    <p class="font-body text-lg text-ink/70">
+                         Ve a <em>Mis Cursos → Horarios</em> y agenda una tutoría para este momento.
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Footer / Botón Atrás -->
+    <div class="px-6 py-4 border-t border-hufflepuff/20 bg-parchment/80">
+        <div class="flex justify-center">
+            <a href="{{ url_for('profesor.catalogo') }}" class="relative group w-12 h-12 rounded-full flex items-center justify-center bg-parchment border-2 border-hufflepuff/30 shadow-md hover:shadow-lg transition-all duration-300">
+                <!-- Glow mágico Hufflepuff -->
+                <div class="absolute inset-0 rounded-full bg-hufflepuff/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-ring-slow"></div>
+                
+                <!-- Flecha SVG con efectos -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ecb939" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" 
+                     class="group-hover:-translate-x-0.5 group-hover:scale-125 transition-transform duration-300"
+                     style="filter: drop-shadow(0 0 8px rgba(236, 185, 57, 0.9));">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Scrollbar Personalizado Hufflepuff */
+    .hufflepuff-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: #ecb939 #f3e5ab;
+    }
+    
+    .hufflepuff-scrollbar::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .hufflepuff-scrollbar::-webkit-scrollbar-track {
+        background: #f3e5ab;
+        border-radius: 12px;
+        margin: 4px 0;
+        border: 2px solid #dcd098;
+    }
+    
+    .hufflepuff-scrollbar::-webkit-scrollbar-thumb {
+        background: #ecb939;
+        border-radius: 12px;
+        border: 2px solid #f3e5ab;
+    }
+    
+    .hufflepuff-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #d4af37;
+        border: 2px solid #e9d99a;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+        .hufflepuff-scrollbar::-webkit-scrollbar-track {
+            background: #0a0a0f;
+            border: 2px solid #ecb939/30;
+        }
+        .hufflepuff-scrollbar::-webkit-scrollbar-thumb {
+            border: 2px solid #0a0a0f;
+        }
+    }
+    
+    /* Animación de pulsación suave */
+    @keyframes pulse-ring {
+        0% {
+            transform: scale(0.8);
+            opacity: 0.5;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 0.3;
+        }
+        100% {
+            transform: scale(0.8);
+            opacity: 0.5;
+        }
+    }
+    
+    .animate-pulse-ring {
+        animation: pulse-ring 2.5s infinite;
+    }
+    
+    .animate-pulse-ring-slow {
+        animation: pulse-ring 3.5s infinite;
+    }
+    
+    /* Efecto hover mejorado */
+    .tutoria-card:active {
+        transform: scale(0.98);
+    }
+    
+    button:active, a:active {
+        transform: scale(0.95);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .tutoria-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .tutoria-card > div:first-child {
+            width: 100%;
+        }
+        
+        .tutoria-card > a {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}

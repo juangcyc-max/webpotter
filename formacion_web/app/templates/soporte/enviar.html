@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}📬 Contactar al Administrador{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>📬 Contactar al Administrador</h2>
+    <p>¿Tienes un problema técnico, duda sobre pagos o contenido del curso? ¡Escríbenos!</p>
+    
+    <form method="post">
+        <label for="mensaje">Tu mensaje:</label>
+        <textarea name="mensaje" rows="6" placeholder="Describe tu problema con detalle..." required></textarea>
+        <button type="submit">📤 Enviar</button>
+    </form>
+
+    <div class="links" style="margin-top: 20px;">
+        <a href="/">⬅️ Volver</a>
+    </div>
+</div>
+{% endblock %}

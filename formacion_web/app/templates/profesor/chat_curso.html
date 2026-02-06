@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}💬 Chat - {{ curso.nombre }}{% endblock %}
+
+{% block content %}
+<div class="bg-parchment/95 backdrop-blur-sm rounded-xl overflow-hidden parchment-shadow border border-slytherin/30">
+    <!-- Header con estilo Slytherin -->
+    <div class="bg-gradient-to-r from-slytherin/15 to-transparent px-6 py-5 border-b border-slytherin/30">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-xl bg-slytherin/20 flex items-center justify-center border border-slytherin/40">
+                    <span class="material-symbols-outlined text-slytherin text-2xl">chat</span>
+                </div>
+                <h2 class="text-2xl font-heading font-bold text-ink tracking-tight">
+                    Chat del curso: <span class="text-slytherin font-black">{{ curso.nombre }}</span>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Historial de mensajes CON SCROLL FUNCIONAL -->
+    <div class="px-6 py-5 max-h-[450px] overflow-y-auto slytherin-scrollbar">
+        {% if mensajes %}
+            {% for msg in mensajes %}
+                <div class="group mb-4">
+                    <div style="
+                        padding: 16px 18px;
+                        border-radius: 16px;
+                        position: relative;
+                        overflow: hidden;
+                        {% if msg.remitente_id == session.user_id %}
+                            background: linear-gradient(135deg, rgba(42, 98, 61, 0.15) 0%, rgba(42, 98, 61, 0.08) 100%);
+                            margin-left: 60px;
+                            border: 1px solid rgba(42, 98, 61, 0.3);
+                            box-shadow: 0 4px 12px rgba(42, 98, 61, 0.15);
+                        {% else %}
+                            background: linear-gradient(135deg, #f3e5ab 0%, #e9d99a 100%);
+                            margin-right: 60px;
+                            border: 1px solid #dcd098;
+                            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+                        {% endif %}">
+                        <!-- Efecto mágico Slytherin -->
+                        {% if msg.remitente_id == session.user_id %}
+                            <div class="absolute top-0 right-0 w-12 h-12 bg-gradient-to-bl from-slytherin to-slytherin/80 opacity-20 rounded-bl-2xl blur-xl"></div>
+                        {% else %}
+                            <div class="absolute top-0 left-0 w-12 h-12 bg-gradient-to-br from-parchment-dark to-transparent opacity-30 rounded-tr-2xl blur-xl"></div>
+                        {% endif %}
+                        
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1.5">
+                                    <strong style="
+                                        font-size: 0.95rem;
+                                        font-weight: 600;
+                                        font-family: 'Work Sans', sans-serif;
+                                        {% if msg.remitente_id == session.user_id %}
+                                            color: #2a623d;
+                                        {% else %}
+                                            color: #2c1810;
+                                        {% endif %}">
+                                        {% if msg.remitente_id == session.user_id %}
+                                            <span class="material-symbols-outlined text-[14px] align-middle mr-1">school</span>
+                                            Profesor
+                                        {% else %}
+                                            <span class="material-symbols-outlined text-[14px] align-middle mr-1">person</span>
+                                            Alumno
+                                        {% endif %}
+                                    </strong>
+                                    <span class="text-xs text-ink/40">•</span>
+                                    <small style="color: #64748b; font-size: 0.8rem; font-family: 'Work Sans', sans-serif;">
+                                        {{ msg.fecha.strftime('%d/%m/%Y %H:%M') }}
+                                    </small>
+                                </div>
+                                <p style="
+                                    color: #2c1810;
+                                    font-size: 1rem;
+                                    line-height: 1.6;
+                                    font-family: 'Work Sans', sans-serif;
+                                    margin: 0;">
+                                    {{ msg.contenido }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="flex flex-col items-center justify-center h-64 text-center py-8 bg-slytherin/5 rounded-2xl border-2 border-dashed border-slytherin/30">
+                <div class="mb-4 p-3 bg-parchment rounded-2xl shadow-sm border border-ink/10">
+                    <span class="material-symbols-outlined text-4xl text-slytherin">chat_bubble_outline</span>
+                </div>
+                <p style="color: #64748b; font-family: 'Work Sans', sans-serif; font-size: 1.1rem; line-height: 1.6;">
+                    <em>📭 No hay mensajes aún.</em>
+                </p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Separador mágico Slytherin -->
+    <div class="bg-gradient-to-r from-transparent via-slytherin/30 to-transparent h-1 my-4 mx-6"></div>
+
+    <!-- Formulario para responder - FUNCIONAL Y MÁGICO -->
+    <form method="post" class="px-6 py-4">
+        <input type="hidden" name="destinatario_id" value="{{ request.args.get('alumno_id', '') }}">
+        
+        <div class="bg-parchment rounded-xl shadow-lg border border-slytherin/20 p-4">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="material-symbols-outlined text-slytherin text-xl">create</span>
+                <h3 class="text-lg font-heading font-bold text-ink">
+                    Responder al alumno
+                </h3>
+            </div>
+            
+            <textarea name="mensaje" 
+                      placeholder="Escribe tu respuesta…" 
+                      style="
+                        width: 100%;
+                        min-height: 100px;
+                        padding: 16px;
+                        background: #f3e5ab;
+                        border: 2px solid #dcd098;
+                        border-radius: 16px;
+                        color: #2c1810;
+                        font-family: 'Work Sans', sans-serif;
+                        font-size: 0.95rem;
+                        line-height: 1.6;
+                        resize: vertical;
+                        transition: all 0.3s ease;
+                        outline: none;
+                      "
+                      onfocus="this.style.borderColor='#2a623d'; this.style.boxShadow='0 0 0 3px rgba(42, 98, 61, 0.2)';"
+                      onblur="this.style.borderColor='#dcd098'; this.style.boxShadow='none';"
+                      required></textarea>
+            
+            <!-- Botón PRINCIPAL MÁGICO - DENTRO DEL FORMULARIO -->
+            <div class="flex justify-end mt-4">
+                <button type="submit" 
+                        class="w-14 h-14 rounded-full bg-gradient-to-br from-slytherin to-slytherin/80 hover:from-slytherin/90 hover:to-slytherin/70 text-parchment font-bold shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center group relative overflow-hidden border-0 cursor-pointer"
+                        style="box-shadow: 0 4px 20px rgba(42, 98, 61, 0.4);">
+                    <!-- Efecto de brillo -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <!-- Efecto de pulsación -->
+                    <div class="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-ring"></div>
+                    
+                    <!-- Icono mágico -->
+                    <span class="material-symbols-outlined text-2xl group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 z-10">
+                        send
+                    </span>
+                    
+                    <!-- Glow externo -->
+                    <div class="absolute inset-0 rounded-full border-2 border-slytherin/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Flecha de retroceso MÁGICA - ÚNICA Y SIN TEXTO -->
+    <div class="px-6 py-4 flex justify-center">
+        <a href="{{ url_for('profesor.chat') }}" 
+           class="relative group w-12 h-12 rounded-full flex items-center justify-center bg-parchment/80 border-2 border-slytherin/30 shadow-md hover:shadow-lg transition-all duration-300">
+            <!-- Glow mágico -->
+            <div class="absolute inset-0 rounded-full bg-slytherin/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-ring-slow"></div>
+            
+            <!-- Flecha SVG con efectos -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2a623d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" 
+                 class="group-hover:-translate-x-0.5 group-hover:scale-125 transition-transform duration-300"
+                 style="filter: drop-shadow(0 0 8px rgba(42, 98, 61, 0.9));">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+    </div>
+</div>
+
+<style>
+    .slytherin-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: #2a623d #f3e5ab;
+    }
+    
+    .slytherin-scrollbar::-webkit-scrollbar {
+        width: 8px;
+    }
+    .slytherin-scrollbar::-webkit-scrollbar-track {
+        background: #f3e5ab;
+        border-radius: 12px;
+        margin: 4px 0;
+        border: 2px solid #dcd098;
+    }
+    .slytherin-scrollbar::-webkit-scrollbar-thumb {
+        background: #2a623d;
+        border-radius: 12px;
+        border: 2px solid #f3e5ab;
+    }
+    .slytherin-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #1e472d;
+        border: 2px solid #e9d99a;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+        .slytherin-scrollbar::-webkit-scrollbar-track {
+            background: #0a0a0f;
+            border: 2px solid #2a623d/30;
+        }
+        .slytherin-scrollbar::-webkit-scrollbar-thumb {
+            border: 2px solid #0a0a0f;
+        }
+    }
+    
+    /* Animación de pulsación suave */
+    @keyframes pulse-ring {
+        0% {
+            transform: scale(0.8);
+            opacity: 0.5;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 0.3;
+        }
+        100% {
+            transform: scale(0.8);
+            opacity: 0.5;
+        }
+    }
+    
+    .animate-pulse-ring {
+        animation: pulse-ring 2.5s infinite;
+    }
+    
+    .animate-pulse-ring-slow {
+        animation: pulse-ring 3.5s infinite;
+    }
+    
+    /* Efecto hover mejorado */
+    button:active {
+        transform: scale(0.95) translateY(2px);
+        box-shadow: 0 2px 15px rgba(42, 98, 61, 0.6);
+    }
+    
+    a:active {
+        transform: scale(0.95);
+    }
+</style>
+{% endblock %}

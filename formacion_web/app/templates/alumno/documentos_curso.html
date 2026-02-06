@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}Materiales - {{ curso.nombre }}{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[70vh]">
+    <!-- Fondo con textura de biblioteca antigua -->
+    <div class="absolute inset-0 bg-gradient-to-br from-parchment via-parchment/95 to-parchment-dark opacity-40 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/parchment.png')]" style="opacity: 0.08;"></div>
+    
+    <!-- Contenedor principal con estilo de biblioteca -->
+    <div class="relative z-10 bg-parchment/95 backdrop-blur-sm rounded-xl overflow-hidden parchment-shadow border-2 border-ink/20">
+        
+        <!-- Header con estilo de sabiduría -->
+        <div class="bg-gradient-to-r from-ravenclaw/95 to-ravenclaw/85 px-6 py-5 border-b border-parchment/30">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-hogwarts-gold rounded-full blur-md opacity-20"></div>
+                        <div class="relative w-12 h-12 bg-gradient-to-br from-hogwarts-gold to-amber-700 rounded-xl flex items-center justify-center border-2 border-parchment shadow-lg">
+                            <span class="material-symbols-outlined text-2xl text-ink">menu_book</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="font-heading font-bold text-xl text-parchment tracking-tight">Materiales del Curso</h1>
+                        <p class="font-body text-sm text-parchment/80 mt-1">{{ curso.nombre }}</p>
+                    </div>
+                </div>
+                
+                <!-- Badge de conocimiento -->
+                <div class="flex items-center gap-2 bg-ravenclaw/30 border border-parchment/40 px-3 py-1.5 rounded-full">
+                    <span class="material-symbols-outlined text-parchment text-base">auto_awesome</span>
+                    <span class="font-body font-medium text-sm text-parchment">Conocimiento</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Frase inspiradora -->
+        <div class="px-6 py-3 bg-ravenclaw/5 border-y border-ink/10">
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-ravenclaw/15 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-ravenclaw text-base">lightbulb</span>
+                </div>
+                <p class="font-body italic text-sm text-ink/80">
+                    <strong>"El conocimiento es el único tesoro que crece al compartirlo."</strong>
+                    <span class="block text-xs text-ink/60 mt-1">— Sabiduría Ancestral</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="px-6 py-8">
+            {% if documentos %}
+                <div class="space-y-4">
+                    {% for doc in documentos %}
+                        <div class="documento-card group bg-parchment-dark/30 border-2 border-ink/15 rounded-xl p-5 hover:border-ravenclaw/40 hover:bg-parchment-dark/50 transition-all duration-300">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-start gap-4 flex-1 min-w-0">
+                                    <div class="w-10 h-10 rounded-lg bg-ravenclaw/10 flex items-center justify-center border border-ravenclaw/30 flex-shrink-0 mt-1">
+                                        {% if doc.tipo == 'documento' %}
+                                            <span class="material-symbols-outlined text-ravenclaw text-xl">description</span>
+                                        {% elif doc.tipo == 'video' %}
+                                            <span class="material-symbols-outlined text-ravenclaw text-xl">movie</span>
+                                        {% elif doc.tipo == 'ejercicio' %}
+                                            <span class="material-symbols-outlined text-ravenclaw text-xl">edit_note</span>
+                                        {% elif doc.tipo == 'presentacion' %}
+                                            <span class="material-symbols-outlined text-ravenclaw text-xl">slideshow</span>
+                                        {% elif doc.tipo == 'codigo' %}
+                                            <span class="material-symbols-outlined text-ravenclaw text-xl">code</span>
+                                        {% else %}
+                                            <span class="material-symbols-outlined text-ravenclaw text-xl">folder</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <h3 class="font-heading font-bold text-lg text-ink truncate">{{ doc.titulo }}</h3>
+                                        <div class="flex items-center gap-3 mt-2">
+                                            <span class="flex items-center gap-1.5 text-sm text-ink/70 font-body">
+                                                <span class="material-symbols-outlined text-[14px]">category</span>
+                                                <span>{{ doc.tipo.replace('_', ' ').title() }}</span>
+                                            </span>
+                                            <span class="w-1.5 h-1.5 rounded-full bg-ink/30"></span>
+                                            <span class="flex items-center gap-1.5 text-sm text-ink/70 font-body">
+                                                <span class="material-symbols-outlined text-[14px]">schedule</span>
+                                                <span>Disponible</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botón de descarga -->
+                                <div class="flex-shrink-0 ml-4">
+                                    <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-ravenclaw to-ravenclaw/80 hover:from-ravenclaw/90 hover:to-ravenclaw/70 text-parchment font-body font-bold text-sm rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-ravenclaw/30 group-hover:border-ravenclaw group-hover:scale-105">
+                                        <span class="material-symbols-outlined text-base">download</span>
+                                        <span>Descargar</span>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <!-- Efecto de brillo sutil al hover -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-ravenclaw/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-xl"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Resumen de materiales -->
+                <div class="mt-8 bg-ravenclaw/5 border border-ravenclaw/20 rounded-xl p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-ravenclaw text-2xl">inventory</span>
+                            <div>
+                                <p class="font-body font-medium text-ink text-sm">Total de materiales:</p>
+                                <p class="font-heading font-bold text-lg text-ravenclaw">{{ documentos|length }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm text-ink/70 font-body">
+                            <span class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">description</span>
+                                <span>{{ documentos|selectattr('tipo', 'equalto', 'documento')|list|length }} documentos</span>
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">movie</span>
+                                <span>{{ documentos|selectattr('tipo', 'equalto', 'video')|list|length }} videos</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="flex flex-col items-center justify-center py-16 text-center bg-parchment-dark/20 rounded-xl border-2 border-dashed border-ink/20">
+                    <div class="relative mb-6">
+                        <div class="absolute inset-0 bg-ravenclaw/10 rounded-full animate-pulse-slow"></div>
+                        <div class="relative w-20 h-20 bg-parchment rounded-full flex items-center justify-center border-4 border-ink shadow-lg">
+                            <span class="material-symbols-outlined text-5xl text-ink/40">menu_book</span>
+                        </div>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-ink mb-2">📚 Sin materiales disponibles</h3>
+                    <p class="font-body text-lg text-ink/60 max-w-md">
+                        El profesor aún no ha subido materiales para este curso.
+                    </p>
+                    <p class="font-body text-sm text-ink/50 mt-2 italic">
+                        Los materiales aparecerán aquí una vez que el profesor los publique.
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Footer / Botón Atrás -->
+        <div class="px-6 py-4 border-t border-ink/15 bg-parchment/80">
+            <div class="flex justify-end">
+                <a href="{{ url_for('alumno.mis_cursos') }}" class="flex items-center gap-2 text-sm font-body font-medium text-ink/70 hover:text-ravenclaw transition-colors">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    Volver a Mis Cursos
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Animación de pulso suave */
+    @keyframes pulse-slow {
+        0%, 100% { transform: scale(1); opacity: 0.3; }
+        50% { transform: scale(1.03); opacity: 0.5; }
+    }
+    
+    .animate-pulse-slow {
+        animation: pulse-slow 4s ease-in-out infinite;
+    }
+    
+    /* Efecto hover mejorado */
+    .documento-card:active {
+        transform: scale(0.99);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .documento-card {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1rem;
+        }
+        
+        .documento-card > div:first-child {
+            width: 100%;
+        }
+        
+        .documento-card > div:last-child {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .documento-card > div:last-child a {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

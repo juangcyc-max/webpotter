@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Cursos{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[70vh]">
+    <!-- Fondo con textura de pergamino sutil -->
+    <div class="absolute inset-0 bg-gradient-to-br from-parchment via-parchment/95 to-parchment-dark opacity-40 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/parchment.png')]" style="opacity: 0.05;"></div>
+    
+    <!-- Contenedor principal con estilo Ravenclaw -->
+    <div class="relative z-10 bg-parchment/95 backdrop-blur-sm rounded-xl overflow-hidden parchment-shadow border-2 border-ink/20">
+        
+        <!-- Header con gradiente Ravenclaw -->
+        <div class="bg-gradient-to-r from-ravenclaw/15 to-transparent px-6 py-5 border-b border-ink/20">
+            <h1 class="font-heading font-bold text-xl text-ink">Mis Cursos</h1>
+            <p class="font-body text-sm text-ink/70 mt-1">Gestión de tus inscripciones académicas</p>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="px-6 py-8">
+            {% if inscripciones %}
+                <div class="space-y-4">
+                    {% for insc in inscripciones %}
+                    <div class="curso-card group bg-parchment-dark/30 border-2 border-ink/15 rounded-xl p-5 hover:border-ravenclaw/40 hover:bg-parchment-dark/50 transition-all duration-300">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-heading font-bold text-lg text-ink truncate">{{ insc.curso.nombre }}</h3>
+                                <p class="font-body text-sm text-ink/70 mt-1 flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-[14px]">school</span>
+                                    Profesor: <span class="font-medium text-ink">{{ insc.profesor.username }}</span>
+                                </p>
+                            </div>
+                            
+                            <div class="flex items-center gap-2 flex-shrink-0 ml-4">
+                                <!-- Botón Materiales -->
+                                <a href="{{ url_for('alumno.documentos_curso', curso_id=insc.curso.id) }}" 
+                                   class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-ravenclaw/10 border border-ravenclaw/30 text-ravenclaw font-body font-bold text-xs rounded-lg hover:bg-ravenclaw/20 hover:border-ravenclaw transition-colors">
+                                    <span class="material-symbols-outlined text-[16px]">folder</span>
+                                    Materiales
+                                </a>
+                                
+                                <!-- Botón Chat -->
+                                <a href="{{ url_for('alumno.chat_curso', curso_id=insc.curso.id) }}" 
+                                   class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-ravenclaw/10 border border-ravenclaw/30 text-ravenclaw font-body font-bold text-xs rounded-lg hover:bg-ravenclaw/20 hover:border-ravenclaw transition-colors">
+                                    <span class="material-symbols-outlined text-[16px]">mail</span>
+                                    Chat
+                                </a>
+                                
+                                <!-- Botón Chat en Vivo o estado -->
+                                {% if insc.tiene_tutoria_activa %}
+                                    <a href="{{ url_for('alumno.chat_vivo', curso_id=insc.curso.id) }}" 
+                                       class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-hogwarts-gold/15 border border-hogwarts-gold/30 text-hogwarts-gold font-body font-bold text-xs rounded-lg hover:bg-hogwarts-gold/25 hover:border-hogwarts-gold transition-colors">
+                                        <span class="material-symbols-outlined text-[16px] animate-pulse">groups</span>
+                                        Chat en Vivo
+                                    </a>
+                                {% else %}
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-ink/10 border border-ink/30 text-ink/60 font-body font-bold text-xs rounded-lg">
+                                        <span class="material-symbols-outlined text-[16px]">schedule</span>
+                                        Sin tutoría
+                                    </span>
+                                {% endif %}
+                                
+                                <!-- Botón Cancelar -->
+                                <a href="{{ url_for('alumno.cancelar', curso_id=insc.curso.id) }}" 
+                                   class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-600/15 border border-red-600/30 text-red-600 font-body font-bold text-xs rounded-lg hover:bg-red-600/25 hover:border-red-600 transition-colors"
+                                   onclick="return confirm('¿Confirmar cancelación de inscripción?')">
+                                    <span class="material-symbols-outlined text-[16px]">cancel</span>
+                                    Cancelar
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Efecto de brillo sutil al hover -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-ravenclaw/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-xl"></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="flex flex-col items-center justify-center py-16 text-center bg-parchment-dark/20 rounded-xl border-2 border-dashed border-ink/20">
+                    <div class="relative mb-6">
+                        <div class="absolute inset-0 bg-ravenclaw/10 rounded-full animate-pulse-slow"></div>
+                        <div class="relative w-20 h-20 bg-parchment rounded-full flex items-center justify-center border-4 border-ink shadow-lg">
+                            <span class="material-symbols-outlined text-5xl text-ink/40">menu_book</span>
+                        </div>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-ink mb-2">📚 Sin inscripciones</h3>
+                    <p class="font-body text-lg text-ink/60 max-w-md">
+                        No estás inscrito en ningún curso actualmente.
+                    </p>
+                    <div class="mt-6">
+                        <a href="{{ url_for('alumno.catalogo') }}" 
+                           class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-ravenclaw to-ravenclaw/80 hover:from-ravenclaw/90 hover:to-ravenclaw/70 text-parchment font-heading font-bold text-sm uppercase tracking-widest rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-ravenclaw/50 hover:border-ravenclaw">
+                            <span class="material-symbols-outlined text-lg">menu_book</span>
+                            Explorar catálogo
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Footer con botón de retroceso -->
+        <div class="px-6 py-4 border-t border-ink/15 bg-parchment/80">
+            <div class="flex justify-end">
+                <a href="{{ url_for('alumno.catalogo') }}" 
+                   class="flex items-center gap-2 text-sm font-body font-medium text-ink/70 hover:text-ravenclaw transition-colors">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    Volver al catálogo
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Animación de pulso suave */
+    @keyframes pulse-slow {
+        0%, 100% { transform: scale(1); opacity: 0.3; }
+        50% { transform: scale(1.03); opacity: 0.5; }
+    }
+    
+    .animate-pulse-slow {
+        animation: pulse-slow 4s ease-in-out infinite;
+    }
+    
+    /* Efecto hover mejorado */
+    .curso-card:active {
+        transform: scale(0.99);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .curso-card {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1rem;
+        }
+        
+        .curso-card > div:first-child {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .curso-card > div:last-child {
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .curso-card > div:last-child a,
+        .curso-card > div:last-child span {
+            flex: 1;
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}

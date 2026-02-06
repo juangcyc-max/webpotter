@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}🧦 Soporte Técnico{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[70vh]">
+    <!-- Fondo con textura de tela sutil (como el uniforme de los elfos) -->
+    <div class="absolute inset-0 opacity-3" style="background-image: radial-gradient(circle, rgba(139, 69, 19, 0.1) 1px, transparent 1px); background-size: 30px 30px;"></div>
+    
+    <div class="relative z-10 bg-parchment/95 backdrop-blur-sm rounded-xl overflow-hidden parchment-shadow border-2 border-ink/20">
+        
+        <!-- Header con estilo de los Elfos Domésticos -->
+        <div class="bg-gradient-to-r from-slytherin/10 via-parchment to-slytherin/10 px-6 py-5 border-b border-ink/20">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-slytherin rounded-full blur-md opacity-20"></div>
+                        <div class="relative w-12 h-12 bg-gradient-to-br from-slytherin to-amber-800 rounded-xl flex items-center justify-center border-2 border-parchment shadow-md">
+                            <span class="text-2xl">🧦</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="font-heading font-bold text-xl text-ink tracking-tight">Soporte Técnico</h1>
+                        <p class="font-body text-sm text-ink/70 mt-1">Nuestros elfos domésticos están listos para ayudarte</p>
+                    </div>
+                </div>
+                
+                <!-- Badge de disponibilidad -->
+                <div class="flex items-center gap-2 bg-slytherin/15 border border-slytherin/30 px-3 py-1.5 rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span class="font-body font-medium text-xs text-slytherin/90">Elfos activos</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-6 py-8">
+            <!-- Formulario con estilo acogedor -->
+            <div class="bg-parchment-dark/30 border-2 border-slytherin/20 rounded-xl p-6 mb-8">
+                <h2 class="font-heading font-bold text-lg text-ink mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-slytherin text-xl">edit_note</span>
+                    Nueva solicitud de ayuda
+                </h2>
+                <form method="post" class="space-y-4">
+                    <textarea name="mensaje" rows="4" placeholder="Describe tu problema con detalle. Nuestros elfos lo resolverán con magia y dedicación..." required class="w-full bg-parchment border-2 border-ink/20 rounded-lg font-body text-ink px-4 py-3 focus:border-slytherin focus:ring-1 focus:ring-slytherin/30 focus:ring-offset-0 transition-colors" style="min-height: 120px; resize: vertical;"></textarea>
+                    <button type="submit" class="w-full bg-gradient-to-r from-slytherin to-slytherin/80 hover:from-slytherin/90 hover:to-slytherin/70 text-parchment font-body font-bold text-sm py-3.5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2 border border-slytherin/30 hover:border-slytherin">
+                        <span class="text-xl">🧦</span>
+                        <span>Pedir ayuda a los elfos</span>
+                        <span class="material-symbols-outlined text-base">send</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Historial de mensajes -->
+            <h2 class="font-heading font-bold text-lg text-ink mb-5 flex items-center gap-2">
+                <span class="material-symbols-outlined text-slytherin text-xl">history</span>
+                Historial de solicitudes
+            </h2>
+            
+            {% if mensajes %}
+                <div class="space-y-5">
+                    {% for msg in mensajes %}
+                        <div class="bg-parchment border border-ink/15 rounded-xl p-5">
+                            <!-- Mensaje del usuario -->
+                            <div class="flex items-start gap-3">
+                                <div class="w-9 h-9 rounded-full bg-slytherin/15 flex items-center justify-center flex-shrink-0 mt-1 border border-slytherin/30">
+                                    <span class="text-xl">🧦</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between">
+                                        <strong class="font-body font-medium text-ink flex items-center gap-1.5">
+                                            <span class="material-symbols-outlined text-[16px] text-slytherin">person</span>
+                                            Tu solicitud
+                                        </strong>
+                                        <small class="font-body text-xs text-ink/60">{{ msg.fecha.strftime('%d/%m/%Y %H:%M') }}</small>
+                                    </div>
+                                    <p class="font-body text-ink mt-2 leading-relaxed">{{ msg.mensaje }}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Respuesta del admin o estado pendiente -->
+                            {% if msg.respuesta %}
+                                <div class="mt-5 bg-slytherin/5 border border-slytherin/20 rounded-xl p-4">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-9 h-9 rounded-full bg-ravenclaw/15 flex items-center justify-center flex-shrink-0 mt-1 border border-ravenclaw/30">
+                                            <span class="material-symbols-outlined text-ravenclaw text-lg">admin_panel_settings</span>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-center justify-between">
+                                                <strong class="font-body font-medium text-ravenclaw flex items-center gap-1.5">
+                                                    <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                                    Respondido por el equipo
+                                                </strong>
+                                                <small class="font-body text-xs text-ink/60">{{ msg.fecha_respuesta.strftime('%d/%m/%Y %H:%M') }}</small>
+                                            </div>
+                                            <p class="font-body text-ink mt-2 leading-relaxed">{{ msg.respuesta }}</p>
+                                            
+                                            <!-- Estado resuelto -->
+                                            {% if msg.resuelto %}
+                                                <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 border border-green-300 text-green-700 font-body font-bold text-xs rounded-full">
+                                                    <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                                    Ticket resuelto
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botón de eliminación para el usuario -->
+                                <div class="mt-4">
+                                    <form method="post" action="{{ url_for('soporte.eliminar_mensaje_propio', id=msg.id) }}" class="inline">
+                                        <button type="submit" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white font-body font-bold text-xs rounded-lg shadow-sm hover:shadow transition-colors flex items-center gap-1.5 border border-red-700">
+                                            <span class="material-symbols-outlined text-[14px]">delete</span>
+                                            Eliminar mensaje
+                                        </button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <div class="mt-4 flex items-center gap-2.5 p-3 bg-amber-50/50 border border-amber-200 rounded-lg">
+                                    <span class="material-symbols-outlined text-amber-600 text-lg animate-pulse">schedule</span>
+                                    <span class="font-body font-medium text-amber-800">⏳ Los elfos están trabajando en tu solicitud. ¡Pronto tendrás respuesta!</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="flex flex-col items-center justify-center py-16 text-center bg-parchment-dark/20 rounded-xl border-2 border-dashed border-ink/20">
+                    <div class="relative mb-6">
+                        <div class="absolute inset-0 bg-slytherin/10 rounded-full animate-pulse-slow"></div>
+                        <div class="relative w-20 h-20 bg-parchment rounded-full flex items-center justify-center border-4 border-ink shadow-lg">
+                            <span class="text-5xl">🧦</span>
+                        </div>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-ink mb-2">¡Hola! 👋</h3>
+                    <p class="font-body text-lg text-ink/70 max-w-md">
+                        Bienvenido al servicio de soporte de GC Academia. <br>
+                        Nuestros elfos domésticos están ansiosos por ayudarte.
+                    </p>
+                    <div class="mt-6">
+                        <div class="inline-flex items-center gap-2 bg-slytherin/10 border border-slytherin/30 px-4 py-2 rounded-full">
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            <span class="font-body font-medium text-sm text-slytherin/90">Elfos en espera: 12</span>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Footer con botón de retroceso -->
+        <div class="px-6 py-4 border-t border-ink/15 bg-parchment/80">
+            <div class="flex justify-end">
+                <a href="{{ url_for('auth.dashboard') }}" class="flex items-center gap-2 text-sm font-body font-medium text-ink/70 hover:text-slytherin transition-colors">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    Volver al panel
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Animación de pulso suave */
+    @keyframes pulse-slow {
+        0%, 100% { transform: scale(1); opacity: 0.3; }
+        50% { transform: scale(1.03); opacity: 0.5; }
+    }
+    
+    .animate-pulse-slow {
+        animation: pulse-slow 4s ease-in-out infinite;
+    }
+    
+    /* Animación de pulso para el reloj */
+    @keyframes pulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+    }
+    
+    .animate-pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .px-6 {
+            padding-left: 1.25rem !important;
+            padding-right: 1.25rem !important;
+        }
+        
+        .py-8 {
+            padding-top: 1.5rem !important;
+            padding-bottom: 1.5rem !important;
+        }
+        
+        textarea {
+            min-height: 100px !important;
+        }
+    }
+</style>
+{% endblock %}

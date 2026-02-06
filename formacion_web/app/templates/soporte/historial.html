@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}📬 Historial de Soporte - Oficina Postal{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --pergamino: #fdfaf0;
+        --verde-bosque: #2d4739;
+        --verde-suave: #8b9d83;
+        --dorado-viejo: #c5a059;
+        --texto: #3e3a36;
+    }
+
+    .dashboard-hogsmeade {
+        background-color: var(--pergamino);
+        border: 2px solid var(--dorado-viejo);
+        border-radius: 8px;
+        padding: 30px;
+        max-width: 800px;
+        margin: 20px auto;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        font-family: 'Georgia', serif;
+        color: var(--texto);
+    }
+
+    h2 {
+        color: var(--verde-bosque);
+        border-bottom: 2px solid var(--dorado-viejo);
+        padding-bottom: 10px;
+        font-variant: small-caps;
+        letter-spacing: 1px;
+    }
+
+    .ticket-container {
+        margin-bottom: 20px;
+        border: 1px solid #e0d7c6;
+        border-left: 5px solid var(--verde-suave);
+        background: #fff;
+        padding: 20px;
+        border-radius: 4px;
+        transition: transform 0.2s;
+    }
+
+    .ticket-container:hover {
+        transform: scale(1.01);
+    }
+
+    .meta-data {
+        font-size: 0.85rem;
+        color: #888;
+        font-style: italic;
+        display: block;
+        margin-top: 5px;
+    }
+
+    .badge-user {
+        color: var(--verde-bosque);
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
+
+    .admin-reply {
+        background: rgba(139, 157, 131, 0.1);
+        border: 1px dashed var(--verde-suave);
+        padding: 12px;
+        margin-top: 15px;
+        border-radius: 4px;
+        position: relative;
+    }
+
+    .status-pending {
+        color: #b37d4e;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .nav-links {
+        margin-top: 30px;
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn-hogsmeade {
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+    }
+
+    .btn-primary-hogsmeade {
+        background-color: var(--verde-bosque);
+        color: white !important;
+    }
+
+    .btn-primary-hogsmeade:hover {
+        background-color: var(--verde-suave);
+    }
+
+    .btn-secondary-hogsmeade {
+        color: var(--verde-bosque);
+        border: 1px solid var(--verde-bosque);
+    }
+
+    .btn-secondary-hogsmeade:hover {
+        background: #f0eee4;
+    }
+</style>
+
+<div class="dashboard-hogsmeade">
+    <h2>📬 Correspondencia de Soporte</h2>
+    <p>Consulte aquí el registro de sus comunicaciones oficiales.</p>
+    
+    {% if mensajes %}
+        {% for msg in mensajes %}
+            <div class="ticket-container">
+                <span class="badge-user">Remitente: Usted</span>
+                <p style="margin: 10px 0;">{{ msg.mensaje }}</p>
+                <span class="meta-data">Fechado el {{ msg.fecha.strftime('%d/%m/%Y %H:%M') }}</span>
+                
+                {% if msg.respuesta %}
+                    <div class="admin-reply">
+                        <span class="badge-user" style="color: var(--dorado-viejo);">📜 Respuesta de Administración</span>
+                        <p style="margin: 8px 0;">{{ msg.respuesta }}</p>
+                        <span class="meta-data">Recibido el {{ msg.fecha_respuesta.strftime('%d/%m/%Y %H:%M') }}</span>
+                    </div>
+                {% else %}
+                    <div class="status-pending">
+                        ⏳ En proceso de revisión por la oficina...
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="font-style: italic; color: #777;">No se encuentran registros de correspondencia previos.</p>
+    {% endif %}
+
+    <div class="nav-links">
+        <a href="{{ url_for('soporte.enviar') }}" class="btn-hogsmeade btn-primary-hogsmeade">📤 Redactar Mensaje</a>
+        <a href="/" class="btn-hogsmeade btn-secondary-hogsmeade">⬅️ Volver al Panel</a>
+    </div>
+</div>
+{% endblock %}

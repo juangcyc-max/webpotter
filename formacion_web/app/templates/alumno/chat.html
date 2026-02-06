@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}💬 Chat con Profesores{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[70vh]">
+    <!-- Fondo luminoso con textura suave -->
+    <div class="absolute inset-0 bg-gradient-to-br from-parchment via-parchment/95 to-parchment-dark opacity-50 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/parchment.png')]" style="opacity: 0.05;"></div>
+    
+    <!-- Contenedor principal con estilo luminoso -->
+    <div class="relative z-10 bg-parchment/95 backdrop-blur-sm rounded-xl overflow-hidden parchment-shadow border-2 border-ink/20">
+        
+        <!-- Header luminoso -->
+        <div class="bg-gradient-to-r from-hufflepuff/15 via-hufflepuff/10 to-transparent px-6 py-5 border-b border-ink/20">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-hogwarts-gold rounded-full blur-md opacity-30"></div>
+                        <div class="relative w-12 h-12 bg-gradient-to-br from-hogwarts-gold to-amber-700 rounded-xl flex items-center justify-center border-2 border-parchment shadow-lg">
+                            <span class="material-symbols-outlined text-2xl text-ink">school</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="font-heading font-bold text-xl text-ink tracking-tight">Chat con Profesores</h1>
+                        <p class="font-body text-sm text-ink/70 mt-1">Selecciona un curso para chatear con tu profesor</p>
+                    </div>
+                </div>
+                
+                <!-- Badge de calidez -->
+                <div class="flex items-center gap-2 bg-hufflepuff/20 border border-hufflepuff/40 px-3 py-1.5 rounded-full">
+                    <span class="material-symbols-outlined text-hufflepuff text-base">sunny</span>
+                    <span class="font-body font-medium text-sm text-hufflepuff/90">Disponible</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="px-6 py-8">
+            {% if cursos_info %}
+                <div class="space-y-3">
+                    {% for item in cursos_info %}
+                        <a href="{{ url_for('alumno.chat_curso', curso_id=item.curso.id) }}" class="curso-card group block bg-parchment-dark/30 border-2 border-ink/15 rounded-xl p-5 hover:border-hufflepuff/40 hover:bg-parchment-dark/50 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4 flex-1 min-w-0">
+                                    <div class="w-10 h-10 rounded-lg bg-hufflepuff/15 flex items-center justify-center border border-hufflepuff/30 flex-shrink-0">
+                                        <span class="material-symbols-outlined text-hufflepuff text-xl">menu_book</span>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <h3 class="font-heading font-bold text-lg text-ink truncate">{{ item.curso.nombre }}</h3>
+                                        <p class="font-body text-sm text-ink/60 mt-1 flex items-center gap-1.5">
+                                            <span class="material-symbols-outlined text-[14px]">school</span>
+                                            Profesor: <span class="font-medium text-ink">{{ item.profesor.username }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botón de entrar al chat -->
+                                <div class="flex-shrink-0">
+                                    <span class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-hufflepuff to-hufflepuff/80 hover:from-hufflepuff/90 hover:to-hufflepuff/70 text-ink font-body font-bold text-sm rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-hufflepuff/30 group-hover:border-hufflepuff">
+                                        <span class="material-symbols-outlined text-base">chat</span>
+                                        Entrar
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Efecto de brillo sutil al hover -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-hufflepuff/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-xl"></div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="flex flex-col items-center justify-center py-16 text-center bg-parchment-dark/20 rounded-xl border-2 border-dashed border-ink/20">
+                    <div class="relative mb-6">
+                        <div class="absolute inset-0 bg-hufflepuff/10 rounded-full animate-pulse-slow"></div>
+                        <div class="relative w-20 h-20 bg-parchment rounded-full flex items-center justify-center border-4 border-ink shadow-lg">
+                            <span class="material-symbols-outlined text-5xl text-ink/40">school</span>
+                        </div>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-ink mb-2">📭 Sin profesores asignados</h3>
+                    <p class="font-body text-lg text-ink/60 max-w-md">
+                        No tienes acceso a ningún curso con profesor asignado.
+                    </p>
+                    <div class="mt-6">
+                        <a href="{{ url_for('alumno.catalogo') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-hufflepuff to-hufflepuff/80 hover:from-hufflepuff/90 hover:to-hufflepuff/70 text-ink font-heading font-bold text-sm uppercase tracking-widest rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-hufflepuff/50 hover:border-hufflepuff">
+                            <span class="material-symbols-outlined text-lg">menu_book</span>
+                            Explorar catálogo
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Footer / Botón Atrás -->
+        <div class="px-6 py-4 border-t border-ink/15 bg-parchment/80">
+            <div class="flex justify-end">
+                <a href="{{ url_for('alumno.mis_cursos') }}" class="flex items-center gap-2 text-sm font-body font-medium text-ink/70 hover:text-hufflepuff transition-colors">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    Volver a Mis Cursos
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Animación de pulso suave */
+    @keyframes pulse-slow {
+        0%, 100% { transform: scale(1); opacity: 0.3; }
+        50% { transform: scale(1.03); opacity: 0.5; }
+    }
+    
+    .animate-pulse-slow {
+        animation: pulse-slow 4s ease-in-out infinite;
+    }
+    
+    /* Efecto hover mejorado */
+    .curso-card:active {
+        transform: scale(0.99);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .curso-card {
+            padding: 1rem;
+        }
+        
+        h3 {
+            font-size: 0.95rem !important;
+        }
+        
+        .curso-card > div:last-child {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .curso-card > div:last-child span {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

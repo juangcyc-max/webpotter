@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GC Academia{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Sorts+Mill+Goudy:ital@0;1&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "gryffindor": "#ae0001",
+                        "slytherin": "#2a623d",
+                        "ravenclaw": "#222f5b",
+                        "hufflepuff": "#ecb939",
+                        "parchment": "#f3e5ab",
+                        "parchment-dark": "#dcd098",
+                        "ink": "#2c1810",
+                        "wax-red": "#8b0000",
+                        "hogwarts-gold": "#d4af37",
+                        "background-dark": "#0a0a0f",
+                    },
+                    fontFamily: {
+                        "heading": ["Cinzel", "serif"],
+                        "body": ["Sorts Mill Goudy", "serif"],
+                        "sans": ["Work Sans", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <style>
+        .parchment-shadow {
+            box-shadow: 0 0 50px -10px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+        .house-border-top {
+            background: linear-gradient(90deg, #ae0001 25%, #2a623d 25%, #2a623d 50%, #222f5b 50%, #222f5b 75%, #ecb939 75%);
+        }
+        .wax-seal {
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 2px 2px 5px rgba(0,0,0,0.4);
+            background: radial-gradient(circle at 30% 30%, #a52a2a, #8b0000);
+        }
+        
+        /* Animación para el Chat en Vivo (Gryffindor Pulse) */
+        @keyframes magic-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(174, 0, 1, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(174, 0, 1, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(174, 0, 1, 0); }
+        }
+        .magic-live-dot {
+            animation: magic-pulse 2s infinite;
+            background-color: #ae0001;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0f; }
+        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
+        
+        /* Estilo para el punto de luz IA */
+        .ia-light-point {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.9) 0%, rgba(212, 175, 57, 0.4) 70%, transparent 80%);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 50;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5),
+                        0 0 40px rgba(212, 175, 55, 0.3),
+                        0 0 60px rgba(212, 175, 55, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0.9;
+        }
+        
+        .ia-light-point:hover {
+            width: 48px;
+            height: 48px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.8),
+                        0 0 60px rgba(212, 175, 55, 0.6),
+                        0 0 90px rgba(212, 175, 55, 0.4),
+                        0 0 120px rgba(212, 175, 55, 0.3);
+            opacity: 1;
+        }
+        
+        .ia-light-point::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .ia-light-point:hover::before {
+            opacity: 1;
+        }
+        
+        .ia-light-point::after {
+            content: '+';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            color: rgba(255, 255, 255, 0.9);
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            font-weight: bold;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .ia-light-point:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        
+        /* Efecto de pulso sutil */
+        @keyframes light-pulse {
+            0%, 100% { opacity: 0.8; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.3); }
+            50% { opacity: 1; box-shadow: 0 0 25px rgba(212, 175, 55, 0.7), 0 0 50px rgba(212, 175, 55, 0.4); }
+        }
+        
+        .ia-light-point {
+            animation: light-pulse 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-background-dark text-ink font-body min-h-screen flex flex-col relative overflow-x-hidden antialiased">
+    
+    <div class="fixed inset-0 z-0 w-full h-full pointer-events-none">
+        <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('https://wallpapers.com/images/hd/hogwarts-castle-background-1920-x-1080-3k9j7k3.jpg'); filter: blur(4px);"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent"></div>
+    </div>
+
+    <div class="relative z-10 flex flex-col min-h-screen">
+        
+        <header class="w-full bg-parchment border-b-4 border-ink/20 shadow-xl sticky top-0 z-50">
+            <div class="h-2 w-full house-border-top"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    
+                    <div class="flex items-center gap-3">
+                        <div class="wax-seal w-10 h-10 rounded-full flex items-center justify-center border-2 border-[#600000]/50 text-parchment">
+                            <span class="material-symbols-outlined text-[20px]">menu_book</span>
+                        </div>
+                        <a href="{{ url_for('auth.dashboard') }}" class="font-heading font-bold text-2xl text-ink tracking-widest hover:text-gryffindor transition-colors uppercase">
+                            GC Academia
+                        </a>
+                    </div>
+
+                    {% if session.user_id %}
+                    <nav class="hidden md:flex items-center gap-1 bg-ink/5 p-1 rounded-full border border-ink/10">
+                        {% if session.role == 'alumno' %}
+                            <a href="{{ url_for('alumno.catalogo') }}" class="px-4 py-2 font-heading text-[11px] font-bold hover:text-gryffindor transition-colors uppercase tracking-widest">Grimorio</a>
+                            <a href="{{ url_for('alumno.mis_cursos') }}" class="px-4 py-2 font-heading text-[11px] font-bold hover:text-gryffindor transition-colors uppercase tracking-widest">Clases</a>
+                            
+                            <span class="h-4 w-px bg-ink/20 mx-1"></span>
+                            
+                            <a href="{{ url_for('alumno.chat') }}" class="px-4 py-2 font-heading text-[11px] font-bold hover:text-slytherin transition-colors uppercase tracking-widest flex items-center gap-2">
+                                <span class="material-symbols-outlined text-lg">mail</span> Mensajes
+                            </a>
+                            
+                            <a href="{{ url_for('alumno.chat_vivo_global') }}" class="px-4 py-2 font-heading text-[11px] font-bold hover:text-gryffindor transition-colors uppercase tracking-widest flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full magic-live-dot"></span>
+                                Chat en Vivo
+                            </a>
+                            
+                            <span class="h-4 w-px bg-ink/20 mx-1"></span>
+                            
+                            <a href="{{ url_for('soporte.index') }}" class="px-4 py-2 font-heading text-[11px] font-bold hover:text-ravenclaw transition-colors uppercase tracking-widest flex items-center gap-2">
+                                <span class="material-symbols-outlined text-lg">support_agent</span> Soporte
+                            </a>
+
+                        {% elif session.role == 'profesor' %}
+                            <a href="{{ url_for('profesor.catalogo') }}" class="px-4 py-2 font-heading text-[11px] font-bold uppercase tracking-widest">Gestión</a>
+                            <a href="{{ url_for('profesor.chat') }}" class="px-4 py-2 font-heading text-[11px] font-bold uppercase tracking-widest">Mensajes</a>
+                            <a href="{{ url_for('profesor.chat_vivo_global') }}" class="px-4 py-2 font-heading text-[11px] font-bold uppercase tracking-widest flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full magic-live-dot"></span> Chat en Vivo
+                            </a>
+                            
+                            <span class="h-4 w-px bg-ink/20 mx-1"></span>
+                            
+                            <a href="{{ url_for('soporte.index') }}" class="px-4 py-2 font-heading text-[11px] font-bold hover:text-ravenclaw transition-colors uppercase tracking-widest flex items-center gap-2">
+                                <span class="material-symbols-outlined text-lg">support_agent</span> Soporte
+                            </a>
+                            
+                        {% elif session.role == 'admin' %}
+                            <a href="{{ url_for('admin.panel') }}" class="px-4 py-2 font-heading text-[11px] font-bold uppercase tracking-widest">Panel</a>
+                            <a href="{{ url_for('admin.inicializar_cursos') }}" class="px-4 py-2 font-heading text-[11px] font-bold uppercase tracking-widest">Cursos</a>
+                            <a href="{{ url_for('soporte.admin_panel') }}" class="px-4 py-2 font-heading text-[11px] font-bold hover:text-ravenclaw transition-colors uppercase tracking-widest flex items-center gap-2">
+                                <span class="material-symbols-outlined text-lg">support_agent</span> Soporte
+                            </a>
+                        {% endif %}
+                    </nav>
+
+                    <div class="flex items-center gap-4">
+                        <div class="hidden md:flex flex-col items-end">
+                            <span class="font-heading font-black text-ink text-xs tracking-tight">{{ session.username }}</span>
+                            <span class="font-body italic text-ink/60 text-[10px] uppercase">{{ session.role }}</span>
+                        </div>
+                        <a href="{{ url_for('auth.logout') }}" class="text-ink/60 hover:text-wax-red transition-colors">
+                            <span class="material-symbols-outlined text-2xl">logout</span>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="max-w-3xl mx-auto mb-6 bg-parchment border-l-4 parchment-shadow p-4 flex items-center gap-3 animate-fade-in
+                                    {% if category == 'success' %}border-slytherin{% elif category == 'error' %}border-gryffindor{% else %}border-ravenclaw{% endif %}">
+                            <span class="material-symbols-outlined text-ink/70">auto_fix_high</span>
+                            <p class="font-heading font-bold text-sm text-ink uppercase tracking-wide">{{ message }}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="bg-parchment/95 backdrop-blur-sm relative rounded-sm parchment-shadow p-6 md:p-10 min-h-[65vh] border border-ink/10">
+                <div class="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/parchment.png')]"></div>
+                
+                <div class="relative z-10">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </main>
+
+        <footer class="py-8 text-center bg-background-dark/80 backdrop-blur-sm border-t border-parchment/10">
+            <p class="text-parchment/50 font-heading text-[11px] tracking-[0.4em] uppercase">
+                GC Academia • Plataforma Educativa
+            </p>
+        </footer>
+
+    </div>
+
+    {% if session.role == 'alumno' %}
+    <!-- Punto de luz elegante para IA -->
+    <div class="ia-light-point" onclick="lanzarIA()" title="Asistente IA Nexus"></div>
+    {% endif %}
+
+    <script>
+        function lanzarIA() {
+            if (typeof mostrarIA === 'function') { 
+                mostrarIA(); 
+            } else {
+                const script = document.createElement('script');
+                script.src = "{{ url_for('static', filename='js/ia-asistente.js') }}";
+                script.onload = () => {
+                    if (document.body) { document.body.setAttribute('data-curso-id', '1'); }
+                    mostrarIA();
+                };
+                document.head.appendChild(script);
+            }
+        }
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,553 @@
+{% extends "base.html" %}
+
+{% block title %}💬 Chat en Vivo - {{ curso.nombre }}{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[70vh]">
+    <!-- Fondo con efecto de pergamino y partículas mágicas -->
+    <div class="absolute inset-0 bg-gradient-to-br from-parchment via-parchment/90 to-parchment-dark opacity-40 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/parchment.png')] style="opacity: 0.08;"></div>
+    
+    <!-- Contenedor principal con efecto cristal -->
+    <div class="relative z-10 bg-parchment/95 backdrop-blur-xl rounded-2xl overflow-hidden parchment-shadow border-2 border-ink/30">
+        
+        <!-- Header con efecto de ventana -->
+        <div class="bg-gradient-to-r from-ink/90 to-ink/80 px-6 py-4 border-b border-parchment/30">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-hogwarts-gold rounded-full blur-md opacity-30"></div>
+                        <div class="relative w-14 h-14 bg-gradient-to-br from-hogwarts-gold to-amber-800 rounded-full flex items-center justify-center border-2 border-parchment shadow-lg">
+                            <span class="material-symbols-outlined text-3xl text-parchment">chat</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-heading font-bold text-parchment tracking-tight">Chat en Vivo</h2>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="flex items-center gap-1.5 text-sm text-parchment/80 font-body">
+                                <span class="material-symbols-outlined text-[16px]">menu_book</span>
+                                <span class="font-bold">{{ curso.nombre }}</span>
+                            </span>
+                            <span class="flex items-center gap-1.5 text-sm text-parchment/80 font-body">
+                                <span class="material-symbols-outlined text-[16px]">school</span>
+                                <span>{{ profesor.username }}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Badge de conexión -->
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 bg-green-500/20 border border-green-500/40 px-3 py-1.5 rounded-full">
+                        <div class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></div>
+                        <span class="text-sm font-body font-bold text-green-300">En línea</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenedor de mensajes con scroll -->
+        <div id="mensajes" class="h-[450px] overflow-y-auto custom-magic-scrollbar px-6 py-4 space-y-4 relative">
+            <!-- Efecto de gradiente en el scroll -->
+            <div class="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-parchment to-transparent pointer-events-none z-10"></div>
+            <div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-parchment to-transparent pointer-events-none z-10"></div>
+            
+            <div id="messages-container" class="relative z-10">
+                <div class="flex justify-center">
+                    <div class="text-center py-8">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-ink/10 rounded-full mb-4">
+                            <span class="material-symbols-outlined text-4xl text-ink/40">chat_bubble_outline</span>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Separador decorativo -->
+        <div class="px-6 py-2">
+            <div class="h-px bg-gradient-to-r from-transparent via-ink/20 to-transparent"></div>
+        </div>
+
+        <!-- Input y controles -->
+        <div class="px-6 py-4 bg-parchment-dark/50 border-t border-ink/20 relative">
+            <div class="flex items-end gap-3">
+                <!-- Botón de emoji -->
+                <button id="emoji-btn" type="button" class="relative group w-12 h-12 rounded-xl bg-parchment border-2 border-ink/20 flex items-center justify-center hover:border-hogwarts-gold/50 hover:bg-parchment-dark transition-all duration-300 shadow-sm hover:shadow-md z-20">
+                    <span class="material-symbols-outlined text-2xl text-ink/70 group-hover:text-hogwarts-gold transition-colors">emoji_emotions</span>
+                    
+                    <!-- Glow mágico -->
+                    <div class="absolute inset-0 rounded-xl bg-hogwarts-gold/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-ring-slow"></div>
+                </button>
+
+                <!-- Input de mensaje (DIV CONTENTEDITABLE FUNCIONAL) -->
+                <div class="flex-1 relative">
+                    <div id="mensaje" 
+                         contenteditable="true" 
+                         placeholder="✍️ Escribe tu mensaje…" 
+                         class="w-full min-h-[50px] max-h-[120px] px-5 py-3 bg-parchment border-2 border-ink/20 rounded-xl font-body text-lg text-ink placeholder:text-ink/40 focus:border-hogwarts-gold/60 focus:ring-2 focus:ring-hogwarts-gold/20 focus:ring-offset-0 transition-all duration-300 resize-none overflow-y-auto custom-input-scrollbar"
+                         style="box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    </div>
+                    
+                    <!-- Contador de caracteres -->
+                    <div id="char-counter" class="absolute bottom-2 right-3 text-xs font-body text-ink/50">0/500</div>
+                </div>
+
+                <!-- Botón de enviar -->
+                <button id="enviar-btn" type="button" class="relative group w-16 h-12 rounded-xl bg-gradient-to-br from-gryffindor via-gryffindor/90 to-gryffindor/80 hover:from-gryffindor/90 hover:to-gryffindor/70 text-parchment font-body font-bold text-lg shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-0">
+                    <!-- Efecto de brillo -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <!-- Efecto de pulsación -->
+                    <div class="absolute inset-0 rounded-xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-ring"></div>
+                    
+                    <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform duration-300 relative z-10">
+                        send
+                    </span>
+                    
+                    <!-- Glow externo -->
+                    <div class="absolute inset-0 rounded-xl border-2 border-gryffindor/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Selector de emojis MÁGICOS (embebido) -->
+    <div id="emoji-picker" class="absolute z-50 bg-parchment rounded-2xl shadow-2xl border-2 border-ink/30 hidden" style="width: 380px; max-height: 360px; overflow-y: auto; bottom: 120px; left: 50%; transform: translateX(-50%);">
+      <div class="p-3">
+        <!-- Tabs de categorías -->
+        <div class="flex gap-2 mb-3 overflow-x-auto pb-2">
+          <button class="emoji-tab px-3 py-1.5 text-xs font-heading font-bold rounded-lg border-2 border-ink/30 bg-parchment-dark hover:bg-parchment transition-all active" data-category="all">
+            🪄 Todos
+          </button>
+          <button class="emoji-tab px-3 py-1.5 text-xs font-heading font-bold rounded-lg border-2 border-ink/30 bg-parchment-dark hover:bg-parchment transition-all" data-category="magia">
+            ✨ Magia
+          </button>
+          <button class="emoji-tab px-3 py-1.5 text-xs font-heading font-bold rounded-lg border-2 border-ink/30 bg-parchment-dark hover:bg-parchment transition-all" data-category="criaturas">
+            🦉 Criaturas
+          </button>
+          <button class="emoji-tab px-3 py-1.5 text-xs font-heading font-bold rounded-lg border-2 border-ink/30 bg-parchment-dark hover:bg-parchment transition-all" data-category="pociones">
+            🧪 Pociones
+          </button>
+          <button class="emoji-tab px-3 py-1.5 text-xs font-heading font-bold rounded-lg border-2 border-ink/30 bg-parchment-dark hover:bg-parchment transition-all" data-category="conocimiento">
+            📚 Libros
+          </button>
+          <button class="emoji-tab px-3 py-1.5 text-xs font-heading font-bold rounded-lg border-2 border-ink/30 bg-parchment-dark hover:bg-parchment transition-all" data-category="casas">
+            🏰 Casas
+          </button>
+        </div>
+        
+        <!-- Grid de emojis -->
+        <div id="emoji-grid" class="grid grid-cols-9 gap-1.5 p-1"></div>
+      </div>
+    </div>
+</div>
+
+<!-- Mensajes anteriores -->
+<script>
+    const mensajesAnteriores = [
+        {% for msg in mensajes_previos %}
+            {
+                user_id: {{ msg.remitente_id }},
+                mensaje: {{ msg.contenido | safe | tojson }},
+                fecha: "{{ msg.fecha.strftime('%d/%m/%Y %H:%M') }}"
+            },
+        {% endfor %}
+    ];
+</script>
+
+<!-- Socket.IO -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<!-- Emoji data (local) -->
+<script src="{{ url_for('static', filename='js/emoji-data.js') }}"></script>
+
+<style>
+    /* Scrollbar personalizado mágico */
+    .custom-magic-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: #d4af37 #f3e5ab;
+    }
+    
+    .custom-magic-scrollbar::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    .custom-magic-scrollbar::-webkit-scrollbar-track {
+        background: #f3e5ab;
+        border-radius: 12px;
+        margin: 4px 0;
+        border: 2px solid #dcd098;
+    }
+    
+    .custom-magic-scrollbar::-webkit-scrollbar-thumb {
+        background: #d4af37;
+        border-radius: 12px;
+        border: 2px solid #f3e5ab;
+    }
+    
+    .custom-magic-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #ae0001;
+        border: 2px solid #e9d99a;
+    }
+    
+    .custom-input-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .custom-input-scrollbar::-webkit-scrollbar-track {
+        background: #f3e5ab;
+        border-radius: 3px;
+    }
+    
+    .custom-input-scrollbar::-webkit-scrollbar-thumb {
+        background: #d4af37;
+        border-radius: 3px;
+    }
+    
+    /* Placeholder para div contenteditable */
+    [contenteditable]:empty:before {
+        content: attr(placeholder);
+        color: #6b7280;
+        pointer-events: none;
+    }
+    
+    [contenteditable]:focus {
+        outline: none;
+    }
+    
+    /* Animación de pulsación suave */
+    @keyframes pulse-ring {
+        0% { transform: scale(0.8); opacity: 0.5; }
+        50% { transform: scale(1.2); opacity: 0.3; }
+        100% { transform: scale(0.8); opacity: 0.5; }
+    }
+    
+    .animate-pulse-ring {
+        animation: pulse-ring 2.5s infinite;
+    }
+    
+    .animate-pulse-ring-slow {
+        animation: pulse-ring 3.5s infinite;
+    }
+    
+    /* Efecto hover mejorado */
+    button:active {
+        transform: scale(0.95);
+    }
+    
+    /* Estilos para tabs */
+    .emoji-tab.active {
+        background-color: #f3e5ab;
+        border-color: #d4af37;
+    }
+    
+    /* ESTILO PARA EMOJIS PNG/GIF */
+    .inline-emoji {
+        display: inline-block;
+        width: 1.3em;
+        height: 1.8em;
+        vertical-align: text-bottom;
+        margin: 0 0.05em;
+        position: relative;
+    }
+    
+    .inline-emoji::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #f3e5ab;
+        border-radius: 3px;
+        z-index: -1;
+    }
+    
+    .inline-emoji img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        #emoji-picker {
+            width: 90% !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            max-height: 280px !important;
+        }
+        
+        #emoji-grid {
+            grid-template-columns: repeat(8, 1fr) !important;
+        }
+        
+        #mensajes {
+            height: 350px !important;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const socket = io();
+    const curso_id = {{ curso.id }};
+    const profesor_id = {{ profesor.id }};
+    const user_id = {{ session.user_id }};
+    const mensajesDiv = document.getElementById('messages-container');
+    const input = document.getElementById('mensaje'); // DIV CONTENTEDITABLE
+    const enviarBtn = document.getElementById('enviar-btn');
+    const emojiBtn = document.getElementById('emoji-btn');
+    const emojiPicker = document.getElementById('emoji-picker');
+    const emojiGrid = document.getElementById('emoji-grid');
+    const charCounter = document.getElementById('char-counter');
+    const emojiTabs = document.querySelectorAll('.emoji-tab');
+
+    // Renderizar mensaje con estilo especial
+    function renderMsg(htmlContent, esAlumno, nombre, fecha) {
+        const div = document.createElement('div');
+        div.style.display = 'flex';
+        div.style.flexDirection = 'column';
+        div.style.alignItems = esAlumno ? 'flex-end' : 'flex-start';
+        div.style.maxWidth = '85%';
+        div.style.animation = 'fadeIn 0.3s ease-out';
+
+        const bubble = document.createElement('div');
+        bubble.style.padding = '14px 18px';
+        bubble.style.borderRadius = esAlumno ? '16px 16px 4px 16px' : '16px 16px 16px 4px';
+        bubble.style.background = esAlumno 
+            ? 'linear-gradient(135deg, #ae0001/15 0%, #ae0001/8 100%)' 
+            : 'linear-gradient(135deg, #f3e5ab 0%, #e9d99a 100%)';
+        bubble.style.border = esAlumno 
+            ? '2px solid rgba(174, 0, 1, 0.3)' 
+            : '2px solid #dcd098';
+        bubble.style.boxShadow = esAlumno 
+            ? '0 4px 15px rgba(174, 0, 1, 0.15)' 
+            : '0 4px 15px rgba(0, 0, 0, 0.08)';
+        bubble.style.color = '#2c1810';
+        bubble.style.wordWrap = 'break-word';
+        bubble.style.whiteSpace = 'pre-wrap';
+        bubble.style.fontSize = '1.05em';
+        bubble.style.fontFamily = "'Work Sans', sans-serif";
+        bubble.style.fontWeight = '200';  /* 👈 TIPOGRAFÍA FINA */
+        bubble.style.position = 'relative';
+        bubble.style.overflow = 'hidden';
+
+        if (esAlumno) {
+            const glow = document.createElement('div');
+            glow.style.position = 'absolute';
+            glow.style.top = '0';
+            glow.style.right = '0';
+            glow.style.width = '20px';
+            glow.style.height = '100%';
+            glow.style.background = 'linear-gradient(90deg, transparent, rgba(174, 0, 1, 0.1), transparent)';
+            glow.style.borderRadius = '16px 16px 4px 16px';
+            bubble.appendChild(glow);
+        }
+
+        bubble.innerHTML = `<strong class="font-heading text-ink/90">${nombre}:</strong><br>${htmlContent}`;
+
+        const time = document.createElement('small');
+        time.textContent = fecha;
+        time.style.fontSize = '0.8em';
+        time.style.color = '#64748b';
+        time.style.fontFamily = "'Work Sans', sans-serif";
+        time.style.marginTop = '6px';
+        time.style.display = 'block';
+
+        div.appendChild(bubble);
+        div.appendChild(time);
+        mensajesDiv.appendChild(div);
+        document.getElementById('mensajes').scrollTop = document.getElementById('mensajes').scrollHeight;
+    }
+
+    // Cargar historial
+    mensajesAnteriores.forEach(m => {
+        renderMsg(
+            m.mensaje,
+            m.user_id === user_id,
+            m.user_id === user_id ? '🎓 Tú' : '👨‍🏫 Profesor',
+            m.fecha
+        );
+    });
+
+    if (mensajesAnteriores.length > 0) {
+        const em = mensajesDiv.querySelector('em');
+        if (em) em.remove();
+    }
+
+    // Conectar
+    socket.on('connect', () => {
+        socket.emit('join', {curso_id, profesor_id});
+    });
+
+    // Recibir mensajes
+    socket.on('message', data => {
+        if (data.type === 'message') {
+            renderMsg(
+                data.mensaje,
+                data.user_id === user_id,
+                data.user_id === user_id ? '🎓 Tú' : '👨‍🏫 Profesor',
+                new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+            );
+        }
+    });
+
+    // Enviar (EXTRAER HTML DEL DIV)
+    function enviar() {
+        const msgContent = input.innerHTML.trim();
+        if (!msgContent || msgContent === '<br>') return;
+        
+        // Contar solo texto visible (ignorar tags HTML)
+        const textLength = input.innerText.length;
+        if (textLength > 500) return;
+        
+        socket.emit('message', {curso_id, profesor_id, mensaje: msgContent});
+        input.innerHTML = '';
+        updateCharCounter();
+        input.focus();
+    }
+
+    enviarBtn.addEventListener('click', enviar);
+    input.addEventListener('keypress', e => { 
+        if(e.key === 'Enter' && !e.shiftKey) { 
+            e.preventDefault(); 
+            enviar(); 
+        } 
+    });
+    
+    // Contador de caracteres
+    function updateCharCounter() {
+        const textLength = input.innerText.length;
+        charCounter.textContent = `${textLength}/500`;
+        if (textLength > 450) {
+            charCounter.style.color = '#ae0001';
+        } else {
+            charCounter.style.color = '#64748b';
+        }
+    }
+    
+    input.addEventListener('input', updateCharCounter);
+
+    // === CARGAR EMOJIS MÁGICOS ===
+    function loadMagicEmojis(category = 'all') {
+        if (!emojiGrid || !window.EMOJIS_MAGICOS) return;
+        
+        emojiGrid.innerHTML = '';
+        
+        let emojisToShow = [];
+        
+        if (category === 'all') {
+            emojisToShow = window.EMOJIS_MAGICOS;
+        } else {
+            emojisToShow = window.EMOJIS_MAGICOS.filter(e => e.category === category);
+        }
+        
+        emojisToShow.forEach(item => {
+            const btn = document.createElement('button');
+            btn.innerHTML = item.emoji;
+            btn.title = item.name;
+            btn.style.width = '36px';
+            btn.style.height = '36px';
+            btn.style.border = 'none';
+            btn.style.background = 'transparent';
+            btn.style.cursor = 'pointer';
+            btn.style.borderRadius = '8px';
+            btn.style.transition = 'all 0.2s ease';
+            btn.style.display = 'flex';
+            btn.style.alignItems = 'center';
+            btn.style.justifyContent = 'center';
+            
+            btn.addEventListener('mouseover', () => {
+                btn.style.transform = 'scale(1.3)';
+                btn.style.background = 'rgba(212, 175, 55, 0.1)';
+                btn.style.boxShadow = '0 2px 8px rgba(212, 175, 55, 0.3)';
+            });
+            
+            btn.addEventListener('mouseout', () => {
+                btn.style.transform = 'scale(1)';
+                btn.style.background = 'transparent';
+                btn.style.boxShadow = 'none';
+            });
+            
+            btn.addEventListener('click', () => {
+                input.focus();
+                
+                const emojiSpan = document.createElement('span');
+                emojiSpan.innerHTML = item.emoji;
+                emojiSpan.style.verticalAlign = 'middle';
+                emojiSpan.style.display = 'inline-block';
+                
+                const selection = window.getSelection();
+                if (selection.rangeCount > 0) {
+                    const range = selection.getRangeAt(0);
+                    range.deleteContents();
+                    range.insertNode(emojiSpan);
+                    
+                    range.setStartAfter(emojiSpan);
+                    range.setEndAfter(emojiSpan);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                } else {
+                    input.appendChild(emojiSpan);
+                }
+                
+                updateCharCounter();
+                emojiPicker.style.display = 'none';
+            });
+            
+            emojiGrid.appendChild(btn);
+        });
+    }
+
+    function initEmojis() {
+        if (typeof window.EMOJIS_MAGICOS !== 'undefined') {
+            loadMagicEmojis('all');
+            
+            emojiTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    loadMagicEmojis(category);
+                    
+                    emojiTabs.forEach(t => t.classList.remove('active', 'bg-parchment', 'border-hogwarts-gold'));
+                    this.classList.add('active', 'bg-parchment', 'border-hogwarts-gold');
+                });
+            });
+        } else {
+            setTimeout(initEmojis, 100);
+        }
+    }
+
+    initEmojis();
+
+    emojiBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        if (emojiPicker.style.display === 'block') {
+            emojiPicker.style.display = 'none';
+        } else {
+            emojiPicker.style.display = 'block';
+            emojiPicker.style.bottom = '120px';
+            emojiPicker.style.left = '50%';
+            emojiPicker.style.transform = 'translateX(-50%)';
+            
+            setTimeout(() => {
+                document.addEventListener('click', closeEmojiPicker);
+            }, 0);
+        }
+    });
+
+    function closeEmojiPicker(e) {
+        if (!emojiBtn.contains(e.target) && !emojiPicker.contains(e.target)) {
+            emojiPicker.style.display = 'none';
+            document.removeEventListener('click', closeEmojiPicker);
+        }
+    }
+
+    window.addEventListener('beforeunload', () => {
+        socket.emit('leave', {curso_id, profesor_id});
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}📬 Soporte{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h2>📬 Soporte</h2>
+    <p>¿Tienes un problema técnico, duda sobre pagos o contenido del curso? ¡Escríbenos!</p>
+
+    <!-- Formulario para nuevo mensaje -->
+    <div style="margin-bottom: 30px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+        <h3>Enviar nuevo mensaje</h3>
+        <form method="post">
+            <textarea name="mensaje" rows="4" placeholder="Describe tu problema con detalle..." required style="width: 100%; padding: 10px; margin-bottom: 10px;"></textarea>
+            <button type="submit" class="btn-primary" style="background: var(--primary);">📤 Enviar</button>
+        </form>
+    </div>
+
+    <!-- Historial -->
+    <h3>Mi historial de mensajes</h3>
+    {% if mensajes %}
+        {% for msg in mensajes %}
+            <div style="
+                margin-bottom: 15px;
+                padding: 15px;
+                background: #ffffff;
+                border: 1px solid #e9ecef;
+                border-radius: 6px;
+            ">
+                <strong>Tú:</strong> {{ msg.mensaje }}
+                <br><small style="color: #6c757d;">{{ msg.fecha.strftime('%d/%m/%Y %H:%M') }}</small>
+                
+                {% if msg.respuesta %}
+                    <div style="background: #e8f4f8; padding: 10px; border-radius: 4px; margin-top: 10px;">
+                        <strong>✅ Admin:</strong> {{ msg.respuesta }}
+                        <br><small style="color: #6c757d;">{{ msg.fecha_respuesta.strftime('%d/%m/%Y %H:%M') }}</small>
+                    </div>
+                {% else %}
+                    <div style="color: #e74c3c; margin-top: 8px;">
+                        ⏳ Esperando respuesta del administrador...
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No tienes mensajes de soporte aún.</p>
+    {% endif %}
+
+    <div class="links" style="margin-top: 20px;">
+        <a href="/">⬅️ Volver al panel</a>
+    </div>
+</div>
+{% endblock %}

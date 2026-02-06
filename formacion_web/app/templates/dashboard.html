@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}🏠 Panel de Control{% endblock %}
+
+<style>
+    /* Estilo Hogwarts/Hosmede - Panel de Control */
+    .hogwarts-panel {
+        max-width: 700px;
+        margin: 30px auto;
+        background: linear-gradient(135deg, #f8f4e9 0%, #f0e6d2 100%);
+        border: 2px solid #8b7355;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(139, 115, 85, 0.2);
+        font-family: 'Georgia', serif;
+    }
+
+    .hogwarts-welcome {
+        color: #2f4f2f;
+        font-size: 1.8rem;
+        text-shadow: 1px 1px 2px rgba(139, 115, 85, 0.2);
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+    }
+
+    .hogwarts-description {
+        color: #5d4037;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        text-align: center;
+        font-style: italic;
+    }
+
+    .hogwarts-logout {
+        display: inline-block;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        color: white !important;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 8px rgba(231, 76, 60, 0.3);
+        text-align: center;
+    }
+
+    .hogwarts-logout:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+    }
+
+    .hogwarts-center {
+        text-align: center;
+        margin-top: 25px;
+    }
+</style>
+
+{% block content %}
+<div class="hogwarts-panel">
+    <h2 class="hogwarts-welcome">👋 Bienvenido, {{ role|title }}</h2>
+
+    {% if role == 'alumno' %}
+        <p class="hogwarts-description">🎓 Puedes ver tus cursos inscritos, horarios de clases en directo y descargar manuales.</p>
+    {% elif role == 'profesor' %}
+        <p class="hogwarts-description">👨‍🏫 Gestiona tus horarios mensuales, sube documentación y clases pregrabadas.</p>
+    {% elif role == 'admin' %}
+        <p class="hogwarts-description">🛠️ Administra usuarios, cursos, pagos y toda la información de la plataforma.</p>
+    {% endif %}
+
+    <div class="hogwarts-center">
+        <a href="{{ url_for('auth.logout') }}" class="hogwarts-logout">
+            🚪 Cerrar sesión
+        </a>
+    </div>
+</div>
+{% endblock %}

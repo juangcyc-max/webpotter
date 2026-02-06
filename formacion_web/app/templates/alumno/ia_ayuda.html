@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+
+{% block title %}🤖 IA Tutor - {{ curso.nombre }}{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[80vh] overflow-hidden">
+    <!-- Fondo mágico con partículas flotantes -->
+    <div class="absolute inset-0 bg-gradient-to-br from-background-dark via-ink/95 to-background-dark pointer-events-none z-0">
+        <!-- Partículas mágicas flotando -->
+        <div class="absolute inset-0 opacity-40">
+            <div class="particle magic-particle-1"></div>
+            <div class="particle magic-particle-2"></div>
+            <div class="particle magic-particle-3"></div>
+            <div class="particle magic-particle-4"></div>
+            <div class="particle magic-particle-5"></div>
+            <div class="particle magic-particle-6"></div>
+            <div class="particle magic-particle-7"></div>
+            <div class="particle magic-particle-8"></div>
+        </div>
+        
+        <!-- Bruma mágica -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(174,0,1,0.15),transparent_40%)] animate-pulse-slow"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(34,47,91,0.12),transparent_40%)] animate-pulse-slow-reverse"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_80%,rgba(236,185,57,0.08),transparent_40%)] animate-pulse-slow"></div>
+    </div>
+    
+    <!-- Contenedor principal con efecto cristal mágico -->
+    <div class="relative z-10 max-w-4xl mx-auto px-4 py-12">
+        <div class="bg-parchment/90 backdrop-blur-xl rounded-3xl overflow-hidden parchment-shadow border-2 border-ink/30 relative">
+            
+            <!-- Borde mágico con las 4 casas -->
+            <div class="absolute -inset-1 bg-gradient-to-r from-gryffindor via-slytherin via-33% via-ravenclaw via-66% to-hufflepuff rounded-4xl opacity-20 blur-sm animate-border-pulse"></div>
+            <div class="absolute -inset-1 bg-gradient-to-r from-gryffindor via-slytherin via-33% via-ravenclaw via-66% to-hufflepuff rounded-4xl opacity-10 animate-border-flow"></div>
+            
+            <!-- Efecto de runas mágicas en las esquinas -->
+            <div class="absolute top-4 left-4 w-8 h-8 opacity-30 animate-float">
+                <span class="material-symbols-outlined text-2xl text-ink/50">auto_awesome</span>
+            </div>
+            <div class="absolute top-4 right-4 w-8 h-8 opacity-30 animate-float-delay-2">
+                <span class="material-symbols-outlined text-2xl text-ink/50">stars</span>
+            </div>
+            <div class="absolute bottom-4 left-4 w-8 h-8 opacity-30 animate-float-delay-4">
+                <span class="material-symbols-outlined text-2xl text-ink/50">wand</span>
+            </div>
+            <div class="absolute bottom-4 right-4 w-8 h-8 opacity-30 animate-float-delay-6">
+                <span class="material-symbols-outlined text-2xl text-ink/50">spatial_tracking</span>
+            </div>
+            
+            <!-- Header mágico -->
+            <div class="relative px-8 py-10 text-center border-b border-ink/20">
+                <div class="relative inline-block mb-6">
+                    <!-- Círculos mágicos concéntricos -->
+                    <div class="absolute inset-0 rounded-full border-2 border-gryffindor/30 animate-pulse-ring-slow"></div>
+                    <div class="absolute inset-0 rounded-full border-2 border-slytherin/30 animate-pulse-ring-slow-delay-1"></div>
+                    <div class="absolute inset-0 rounded-full border-2 border-ravenclaw/30 animate-pulse-ring-slow-delay-2"></div>
+                    <div class="absolute inset-0 rounded-full border-2 border-hufflepuff/30 animate-pulse-ring-slow-delay-3"></div>
+                    
+                    <!-- Icono flotante -->
+                    <div class="relative w-20 h-20 bg-gradient-to-br from-gryffindor to-ravenclaw rounded-2xl flex items-center justify-center border-2 border-parchment shadow-2xl animate-float">
+                        <span class="material-symbols-outlined text-4xl text-parchment animate-pulse-slow">psychology</span>
+                    </div>
+                </div>
+                
+                <h1 class="font-heading font-black text-4xl text-ink mb-3 bg-clip-text bg-gradient-to-r from-gryffindor via-ravenclaw to-hufflepuff text-transparent animate-title-glow">
+                    NÚCLEO NEXUS
+                </h1>
+                
+                <p class="font-body text-lg text-ink/80 max-w-2xl mx-auto italic">
+                    <span class="material-symbols-outlined align-middle text-xl mr-2">auto_fix_high</span>
+                    Sistema de Inteligencia Artificial Avanzada • v2.4
+                </p>
+                
+                <div class="mt-4">
+                    <div class="inline-flex items-center gap-2 bg-ink/10 px-4 py-2 rounded-full border border-ink/20">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="font-body font-medium text-sm text-ink/90">Conectado al curso: <span class="font-bold">{{ curso.nombre }}</span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenido principal -->
+            <div class="px-8 py-10">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <div class="inline-block mb-6">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-gradient-to-r from-gryffindor/20 to-hufflepuff/20 rounded-full blur-xl animate-pulse-slow"></div>
+                            <div class="relative bg-parchment-dark rounded-xl p-6 border-2 border-ink/20">
+                                <p class="font-body text-lg text-ink/90 italic leading-relaxed">
+                                    <span class="material-symbols-outlined align-middle text-2xl mr-2 text-gryffindor/80">lightbulb</span>
+                                    <strong>"La magia verdadera no está en la varita, sino en la mente que la empuña."</strong>
+                                    <span class="block mt-2 text-sm text-ink/70">— Sistema Nexus Core</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="font-body text-lg text-ink/80 mb-8">
+                        💡 Pregunta lo que desees sobre este curso. El Núcleo Nexus analizará el contenido educativo y te proporcionará respuestas con precisión mágica.
+                    </p>
+                </div>
+                
+                <!-- Botón MÁGICO de activación -->
+                <div class="flex justify-center">
+                    <button id="activate-nexus" onclick="activarNexus()" class="nexus-button group relative">
+                        <!-- Efecto de brillo interno -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-gryffindor via-ravenclaw to-hufflepuff opacity-20 rounded-2xl blur-lg animate-pulse-slow"></div>
+                        
+                        <!-- Círculos mágicos -->
+                        <div class="absolute inset-0 rounded-2xl border-2 border-gryffindor/40 animate-pulse-ring"></div>
+                        <div class="absolute inset-0 rounded-2xl border-2 border-slytherin/40 animate-pulse-ring-delay-1"></div>
+                        <div class="absolute inset-0 rounded-2xl border-2 border-ravenclaw/40 animate-pulse-ring-delay-2"></div>
+                        <div class="absolute inset-0 rounded-2xl border-2 border-hufflepuff/40 animate-pulse-ring-delay-3"></div>
+                        
+                        <!-- Contenido del botón -->
+                        <div class="relative z-10 flex items-center gap-3 px-8 py-5">
+                            <span class="material-symbols-outlined text-3xl text-parchment group-hover:scale-125 transition-transform duration-500">
+                                auto_awesome
+                            </span>
+                            <span class="font-heading font-black text-xl text-parchment tracking-wider whitespace-nowrap">
+                                ACTIVAR NÚCLEO NEXUS
+                            </span>
+                            <span class="material-symbols-outlined text-3xl text-parchment group-hover:scale-125 transition-transform duration-500">
+                                psychology
+                            </span>
+                        </div>
+                        
+                        <!-- Partículas mágicas al hacer hover -->
+                        <div class="absolute inset-0 overflow-hidden rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <div class="sparkle sparkle-1"></div>
+                            <div class="sparkle sparkle-2"></div>
+                            <div class="sparkle sparkle-3"></div>
+                            <div class="sparkle sparkle-4"></div>
+                            <div class="sparkle sparkle-5"></div>
+                        </div>
+                    </button>
+                </div>
+                
+                <!-- Indicador de estado -->
+                <div class="mt-10 text-center">
+                    <div class="inline-flex items-center gap-3 bg-parchment-dark rounded-xl px-6 py-3 border border-ink/20">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-gryffindor text-lg">bolt</span>
+                            <span class="font-body font-medium text-sm text-ink/80">Potencia mágica:</span>
+                        </div>
+                        <div class="w-32 h-1.5 bg-ink/20 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-gryffindor to-hufflepuff animate-pulse-width"></div>
+                        </div>
+                        <span class="font-heading font-bold text-sm text-gryffindor">100%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer con información -->
+            <div class="px-8 py-6 bg-parchment-dark/50 border-t border-ink/20 text-center">
+                <div class="flex items-center justify-center gap-3">
+                    <span class="material-symbols-outlined text-ink/60 text-lg">shield</span>
+                    <p class="font-body text-sm text-ink/70">
+                        GC Academia • Sistema de IA Educativa Protegido por Protocolos Mágicos
+                    </p>
+                </div>
+                <div class="mt-4">
+                    <a href="{{ url_for('alumno.mis_cursos') }}" class="inline-flex items-center gap-2 font-body text-sm text-ink/70 hover:text-gryffindor transition-colors">
+                        <span class="material-symbols-outlined text-base">arrow_back</span>
+                        Volver a Mis Cursos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Añadir data attribute para el curso actual -->
+<script>
+document.body.setAttribute('data-curso-id', '{{ curso.id }}');
+</script>
+
+<style>
+    /* Animaciones mágicas */
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes pulse-slow {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 0.6; transform: scale(1.05); }
+    }
+    
+    @keyframes pulse-ring {
+        0% { box-shadow: 0 0 0 0 rgba(174, 0, 1, 0.4); opacity: 1; }
+        70% { box-shadow: 0 0 0 12px rgba(174, 0, 1, 0); opacity: 0.5; }
+        100% { box-shadow: 0 0 0 0 rgba(174, 0, 1, 0); opacity: 0; }
+    }
+    
+    @keyframes border-pulse {
+        0%, 100% { opacity: 0.1; }
+        50% { opacity: 0.3; }
+    }
+    
+    @keyframes border-flow {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+    }
+    
+    @keyframes pulse-width {
+        0%, 100% { width: 95%; }
+        50% { width: 100%; }
+    }
+    
+    @keyframes title-glow {
+        0%, 100% { text-shadow: 0 0 10px rgba(174, 0, 1, 0.7), 0 0 20px rgba(34, 47, 91, 0.7); }
+        50% { text-shadow: 0 0 20px rgba(174, 0, 1, 1), 0 0 30px rgba(34, 47, 91, 1), 0 0 40px rgba(236, 185, 57, 0.8); }
+    }
+    
+    /* Clases de animación */
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-float-delay-2 { animation: float 6s ease-in-out 1s infinite; }
+    .animate-float-delay-4 { animation: float 6s ease-in-out 2s infinite; }
+    .animate-float-delay-6 { animation: float 6s ease-in-out 3s infinite; }
+    .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
+    .animate-pulse-slow-reverse { animation: pulse-slow 5s ease-in-out infinite reverse; }
+    .animate-pulse-ring { animation: pulse-ring 3s infinite; }
+    .animate-pulse-ring-delay-1 { animation: pulse-ring 3s 0.3s infinite; }
+    .animate-pulse-ring-delay-2 { animation: pulse-ring 3s 0.6s infinite; }
+    .animate-pulse-ring-delay-3 { animation: pulse-ring 3s 0.9s infinite; }
+    .animate-pulse-ring-slow { animation: pulse-ring 4s infinite; }
+    .animate-pulse-ring-slow-delay-1 { animation: pulse-ring 4s 0.4s infinite; }
+    .animate-pulse-ring-slow-delay-2 { animation: pulse-ring 4s 0.8s infinite; }
+    .animate-pulse-ring-slow-delay-3 { animation: pulse-ring 4s 1.2s infinite; }
+    .animate-border-pulse { animation: border-pulse 3s ease-in-out infinite; }
+    .animate-border-flow { animation: border-flow 8s linear infinite; background-size: 200% 200%; }
+    .animate-pulse-width { animation: pulse-width 2s ease-in-out infinite; }
+    .animate-title-glow { animation: title-glow 3s ease-in-out infinite; }
+    
+    /* Partículas mágicas */
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(212,175,55,0.6) 70%, transparent 80%);
+        pointer-events: none;
+    }
+    
+    .magic-particle-1 { width: 8px; height: 8px; top: 20%; left: 15%; animation: float 15s infinite; opacity: 0.7; }
+    .magic-particle-2 { width: 6px; height: 6px; top: 40%; left: 85%; animation: float 18s infinite reverse; opacity: 0.6; }
+    .magic-particle-3 { width: 10px; height: 10px; top: 70%; left: 25%; animation: float 20s infinite; opacity: 0.8; }
+    .magic-particle-4 { width: 5px; height: 5px; top: 10%; left: 60%; animation: float 16s infinite reverse; opacity: 0.5; }
+    .magic-particle-5 { width: 7px; height: 7px; top: 60%; left: 45%; animation: float 22s infinite; opacity: 0.7; }
+    .magic-particle-6 { width: 9px; height: 9px; top: 30%; left: 35%; animation: float 19s infinite reverse; opacity: 0.6; }
+    .magic-particle-7 { width: 6px; height: 6px; top: 80%; left: 75%; animation: float 17s infinite; opacity: 0.5; }
+    .magic-particle-8 { width: 8px; height: 8px; top: 50%; left: 10%; animation: float 21s infinite reverse; opacity: 0.7; }
+    
+    /* Botón Núcleo Nexus */
+    .nexus-button {
+        background: linear-gradient(135deg, #0a0a0f 0%, #1a1a25 100%);
+        border: none;
+        border-radius: 1.5rem;
+        padding: 0;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5),
+                    0 0 40px rgba(174, 0, 1, 0.3),
+                    0 0 60px rgba(34, 47, 91, 0.2),
+                    0 0 80px rgba(236, 185, 57, 0.15);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        will-change: transform;
+    }
+    
+    .nexus-button:hover {
+        transform: scale(1.03) translateY(-2px);
+        box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.6),
+                    0 0 50px rgba(174, 0, 1, 0.5),
+                    0 0 70px rgba(34, 47, 91, 0.3),
+                    0 0 90px rgba(236, 185, 57, 0.25);
+    }
+    
+    .nexus-button:active {
+        transform: scale(0.98);
+    }
+    
+    /* Chispas mágicas */
+    .sparkle {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle, white 0%, rgba(255,255,255,0) 70%);
+        pointer-events: none;
+        opacity: 0.8;
+    }
+    
+    .sparkle-1 { width: 4px; height: 4px; top: 20%; left: 20%; animation: sparkle-burst 1s forwards; }
+    .sparkle-2 { width: 3px; height: 3px; top: 30%; left: 70%; animation: sparkle-burst 1s 0.1s forwards; }
+    .sparkle-3 { width: 5px; height: 5px; top: 60%; left: 30%; animation: sparkle-burst 1s 0.2s forwards; }
+    .sparkle-4 { width: 4px; height: 4px; top: 70%; left: 80%; animation: sparkle-burst 1s 0.3s forwards; }
+    .sparkle-5 { width: 3px; height: 3px; top: 40%; left: 50%; animation: sparkle-burst 1s 0.4s forwards; }
+    
+    @keyframes sparkle-burst {
+        0% { opacity: 0; transform: scale(0) translate(0, 0); }
+        20% { opacity: 1; }
+        100% { opacity: 0; transform: scale(1.5) translate(var(--tx, 0), var(--ty, 0)); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .nexus-button {
+            width: 100%;
+        }
+        
+        .nexus-button .relative {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem !important;
+        }
+    }
+</style>
+
+<script>
+    // Función para activar el Núcleo Nexus con efectos mágicos
+    function activarNexus() {
+        const button = document.getElementById('activate-nexus');
+        
+        // Efecto de explosión de partículas al hacer clic
+        const sparkles = button.querySelectorAll('.sparkle');
+        sparkles.forEach((sparkle, i) => {
+            // Dirección aleatoria para cada chispa
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 50 + Math.random() * 50;
+            sparkle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+            sparkle.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+            
+            // Reiniciar animación
+            sparkle.style.animation = 'none';
+            setTimeout(() => {
+                sparkle.style.animation = `sparkle-burst 1s forwards`;
+            }, 10);
+        });
+        
+        // Efecto de escala y glow intenso
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            button.style.transform = 'scale(1.05)';
+            button.style.boxShadow = '0 0 60px rgba(174, 0, 1, 0.8), 0 0 80px rgba(34, 47, 91, 0.6), 0 0 100px rgba(236, 185, 57, 0.4)';
+        }, 150);
+        
+        setTimeout(() => {
+            button.style.transform = 'scale(1)';
+            button.style.boxShadow = '';
+        }, 300);
+        
+        // Cargar la interfaz IA después de la animación
+        setTimeout(() => {
+            // Cargar el script de IA si no está cargado
+            if (typeof mostrarIA === 'function') {
+                mostrarIA();
+            } else {
+                const script = document.createElement('script');
+                script.src = "{{ url_for('static', filename='js/ia-asistente.js') }}";
+                script.onload = () => {
+                    if (typeof mostrarIA === 'function') {
+                        mostrarIA();
+                    }
+                };
+                document.head.appendChild(script);
+            }
+        }, 800);
+    }
+    
+    // Efecto de chispas continuas al hacer hover
+    document.addEventListener('DOMContentLoaded', () => {
+        const button = document.getElementById('activate-nexus');
+        
+        button.addEventListener('mouseenter', () => {
+            // Reiniciar chispas cada vez que se hace hover
+            const sparkles = button.querySelectorAll('.sparkle');
+            sparkles.forEach((sparkle, i) => {
+                setTimeout(() => {
+                    sparkle.style.animation = 'sparkle-burst 1s forwards';
+                }, i * 100);
+            });
+        });
+    });
+</script>
+{% endblock %}

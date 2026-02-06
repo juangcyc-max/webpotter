@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Tesorería | Gestión Financiera{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[70vh] flex items-center justify-center">
+    <!-- Contenedor principal profesional -->
+    <div class="relative z-10 w-full max-w-2xl mx-4">
+        <div class="bg-parchment/95 backdrop-blur-sm rounded-2xl overflow-hidden parchment-shadow border-2 border-ink/20">
+            
+            <!-- Borde superior elegante -->
+            <div class="h-1 bg-gradient-to-r from-gryffindor via-hogwarts-gold to-gryffindor"></div>
+            
+            <!-- Header profesional -->
+            <div class="bg-gradient-to-r from-ink/90 to-ink/85 px-8 py-6 border-b border-parchment/30">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-hogwarts-gold to-amber-800 rounded-xl flex items-center justify-center border-2 border-parchment">
+                            <span class="material-symbols-outlined text-2xl text-ink">account_balance</span>
+                        </div>
+                        <div>
+                            <h1 class="font-heading font-bold text-xl text-parchment">Sistema de Tesorería</h1>
+                            <p class="font-body text-parchment/80 text-sm mt-1">Gestión Financiera • v4.0</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-mono font-semibold text-parchment text-base">{{ now }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido del formulario -->
+            <div class="px-8 py-8">
+                <div class="mb-6">
+                    <h2 class="font-heading font-bold text-xl text-ink mb-2">Registrar Nueva Transacción</h2>
+                    <p class="font-body text-ink/70 text-sm">Complete todos los campos para procesar el pago</p>
+                </div>
+
+                <form method="post" class="space-y-5">
+                    <!-- Beneficiario -->
+                    <div class="input-group">
+                        <label class="block font-body font-medium text-ink/80 text-sm mb-1.5">
+                            Beneficiario (Alumno)
+                        </label>
+                        <div class="relative">
+                            <select name="alumno_id" class="w-full bg-parchment border border-ink/20 rounded-lg font-body text-sm text-ink px-4 py-2.5 focus:border-gryffindor focus:ring-1 focus:ring-gryffindor/20 focus:ring-offset-0 transition-colors" required>
+                                <option value="" disabled selected>Seleccione un alumno</option>
+                                {% for alumno in alumnos %}
+                                    <option value="{{ alumno.id }}">{{ alumno.username }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                                <span class="material-symbols-outlined text-ink/40 text-base">expand_more</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Concepto -->
+                    <div class="input-group">
+                        <label class="block font-body font-medium text-ink/80 text-sm mb-1.5">
+                            Concepto (Curso)
+                        </label>
+                        <div class="relative">
+                            <select name="curso_id" class="w-full bg-parchment border border-ink/20 rounded-lg font-body text-sm text-ink px-4 py-2.5 focus:border-gryffindor focus:ring-1 focus:ring-gryffindor/20 focus:ring-offset-0 transition-colors" required>
+                                <option value="" disabled selected>Seleccione un curso</option>
+                                {% for curso in cursos %}
+                                    <option value="{{ curso.id }}">{{ curso.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                                <span class="material-symbols-outlined text-ink/40 text-base">expand_more</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fila doble: Importe y Método -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="block font-body font-medium text-ink/80 text-sm mb-1.5">
+                                Importe Total (€)
+                            </label>
+                            <div class="relative">
+                                <input type="number" name="monto" step="0.01" min="0" class="w-full bg-parchment border border-ink/20 rounded-lg font-body font-bold text-lg text-gryffindor px-4 py-2.5 focus:border-gryffindor focus:ring-1 focus:ring-gryffindor/20 focus:ring-offset-0 transition-colors" placeholder="0.00" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="block font-body font-medium text-ink/80 text-sm mb-1.5">
+                                Método de Pago
+                            </label>
+                            <div class="relative">
+                                <select name="metodo" class="w-full bg-parchment border border-ink/20 rounded-lg font-body text-sm text-ink px-4 py-2.5 focus:border-gryffindor focus:ring-1 focus:ring-gryffindor/20 focus:ring-offset-0 transition-colors" required>
+                                    <option value="tarjeta">Tarjeta</option>
+                                    <option value="transferencia">Transferencia</option>
+                                    <option value="efectivo">Efectivo</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                                    <span class="material-symbols-outlined text-ink/40 text-base">expand_more</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón de confirmación profesional -->
+                    <button type="submit" class="w-full bg-gradient-to-r from-gryffindor to-gryffindor/80 hover:from-gryffindor/90 hover:to-gryffindor/70 text-parchment font-body font-bold text-sm py-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gryffindor/30 hover:border-gryffindor">
+                        <div class="flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-base">check_circle</span>
+                            <span>CONFIRMAR TRANSACCIÓN</span>
+                        </div>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Footer con botón de volver -->
+            <div class="px-8 py-5 bg-parchment-dark/30 border-t border-ink/20">
+                <a href="{{ url_for('admin.panel') }}" class="w-full inline-flex items-center justify-center gap-2 bg-parchment hover:bg-parchment-dark border border-ink/30 hover:border-gryffindor text-ink font-body font-medium text-sm py-2.5 rounded-lg transition-all duration-200">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    <span>Volver al Panel de Administración</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Scroll personalizado profesional */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(44, 24, 16, 0.05);
+        border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: rgba(44, 24, 16, 0.3);
+        border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(44, 24, 16, 0.5);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .px-8 {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+        
+        .py-8 {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+        
+        .text-xl {
+            font-size: 1.25rem !important;
+        }
+        
+        .grid.grid-cols-1.md\:grid-cols-2 {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+{% endblock %}

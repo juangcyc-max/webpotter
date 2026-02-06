@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}📂 Subir Documento - {{ curso.nombre }}{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[70vh]">
+    <!-- Fondo sutil con textura de pergamino antiguo -->
+    <div class="absolute inset-0 bg-gradient-to-br from-parchment via-parchment/95 to-parchment-dark opacity-40 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/parchment.png')]" style="opacity: 0.1;"></div>
+    
+    <!-- Contenedor principal con estilo de oficina de Dumbledore -->
+    <div class="relative z-10 bg-parchment/95 backdrop-blur-sm rounded-xl overflow-hidden parchment-shadow border-2 border-ink/20">
+        
+        <!-- Header con estilo de Dumbledore -->
+        <div class="bg-gradient-to-r from-ravenclaw/95 to-ravenclaw/80 px-6 py-4 border-b border-parchment/30">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-hogwarts-gold rounded-full blur-md opacity-20"></div>
+                        <div class="relative w-10 h-10 bg-gradient-to-br from-hogwarts-gold to-amber-700 rounded-lg flex items-center justify-center border-2 border-parchment shadow-md">
+                            <span class="material-symbols-outlined text-ink text-xl">upload_file</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="font-heading font-bold text-lg text-parchment tracking-tight">Subir Material</h1>
+                        <p class="font-body text-sm text-parchment/80 mt-0.5">{{ curso.nombre }}</p>
+                    </div>
+                </div>
+                
+                <!-- Icono de fénix sutil -->
+                <div class="flex items-center gap-2 bg-ravenclaw/40 px-3 py-1.5 rounded-lg border border-parchment/30">
+                    <span class="material-symbols-outlined text-parchment text-base">auto_awesome</span>
+                    <span class="font-body text-xs text-parchment font-medium">Sabiduría</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Frase inspiradora de Dumbledore -->
+        <div class="px-6 py-3 bg-ravenclaw/5 border-y border-ink/10">
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-ravenclaw/15 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-ravenclaw text-base">lightbulb</span>
+                </div>
+                <p class="font-body italic text-sm text-ink/80">
+                    <strong>"La felicidad se puede encontrar incluso en los momentos más oscuros, si uno recuerda encender la luz."</strong>
+                    <span class="block text-xs text-ink/60 mt-1">— Albus Dumbledore</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Formulario de subida -->
+        <div class="px-6 py-6">
+            <form method="post" enctype="multipart/form-data" class="space-y-5">
+                
+                <!-- Campo: Título -->
+                <div>
+                    <label for="titulo" class="block font-body font-medium text-ink/80 text-sm mb-1.5">
+                        Título del material
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-ink/40 text-base">title</span>
+                        </div>
+                        <input type="text" name="titulo" id="titulo" required
+                               class="w-full pl-9 pr-3 py-2.5 bg-parchment border border-ink/20 rounded-lg font-body text-sm text-ink placeholder:text-ink/40 focus:border-ravenclaw focus:ring-1 focus:ring-ravenclaw/30 focus:ring-offset-0 transition-colors"
+                               placeholder="Ej: Introducción al álgebra básica">
+                    </div>
+                </div>
+                
+                <!-- Campo: Tipo -->
+                <div>
+                    <label for="tipo" class="block font-body font-medium text-ink/80 text-sm mb-1.5">
+                        Tipo de material
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-ink/40 text-base">category</span>
+                        </div>
+                        <select name="tipo" id="tipo" required
+                                class="w-full pl-9 pr-8 py-2.5 bg-parchment border border-ink/20 rounded-lg font-body text-sm text-ink focus:border-ravenclaw focus:ring-1 focus:ring-ravenclaw/30 focus:ring-offset-0 transition-colors appearance-none">
+                            <option value="" disabled selected>Selecciona un tipo...</option>
+                            <option value="documento">📄 Documento (PDF, Word, etc.)</option>
+                            <option value="video">🎥 Clase pregrabada (video)</option>
+                            <option value="ejercicio">✏️ Ejercicio resuelto</option>
+                            <option value="presentacion">📊 Presentación (PowerPoint)</option>
+                            <option value="codigo">💻 Código fuente</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-ink/40 text-base">expand_more</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Campo: Archivo -->
+                <div>
+                    <label for="archivo" class="block font-body font-medium text-ink/80 text-sm mb-1.5">
+                        Archivo a subir
+                    </label>
+                    <div class="border-2 border-dashed border-ink/20 rounded-lg p-6 bg-parchment-dark/30 hover:border-ravenclaw/40 hover:bg-ravenclaw/5 transition-colors cursor-pointer">
+                        <div class="flex flex-col items-center justify-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-ravenclaw/10 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-ravenclaw text-2xl">upload_file</span>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-body font-medium text-ink text-sm">Arrastra y suelta tu archivo aquí</p>
+                                <p class="font-body text-xs text-ink/60 mt-1">o haz clic para buscar en tu dispositivo</p>
+                            </div>
+                            <input type="file" name="archivo" id="archivo" required class="hidden">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Información de formatos aceptados -->
+                <div class="bg-ravenclaw/5 border border-ravenclaw/20 rounded-lg p-3">
+                    <div class="flex items-start gap-2">
+                        <span class="material-symbols-outlined text-ravenclaw text-base mt-0.5">info</span>
+                        <div class="font-body text-xs text-ink/80">
+                            <p class="font-medium mb-1">Formatos aceptados:</p>
+                            <ul class="list-disc list-inside space-y-0.5">
+                                <li>Documentos: PDF, DOC, DOCX, PPT, PPTX</li>
+                                <li>Videos: MP4, AVI, MOV (máx. 500MB)</li>
+                                <li>Código: ZIP, RAR</li>
+                                <li>Imágenes: JPG, PNG, GIF</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botón de subir -->
+                <button type="submit" class="w-full bg-gradient-to-r from-ravenclaw to-ravenclaw/80 hover:from-ravenclaw/90 hover:to-ravenclaw/70 text-parchment font-body font-medium text-sm py-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-ravenclaw/30">
+                    <span class="material-symbols-outlined align-middle text-base mr-2">cloud_upload</span>
+                    Subir material educativo
+                </button>
+            </form>
+        </div>
+
+        <!-- Footer con consejo de Dumbledore -->
+        <div class="px-6 py-4 border-t border-ink/15 bg-parchment/80">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-ink/60 text-base">school</span>
+                    <span class="font-body text-xs text-ink/70">GC Academia • Compartiendo conocimiento</span>
+                </div>
+                <a href="{{ url_for('profesor.catalogo') }}" class="flex items-center gap-1.5 text-sm font-body font-medium text-ink/70 hover:text-ravenclaw transition-colors">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    Volver al catálogo
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilo para el select personalizado */
+    select option {
+        background-color: #f3e5ab;
+        color: #2c1810;
+    }
+    
+    select option:hover {
+        background-color: #e9d99a;
+    }
+    
+    /* Efecto hover en el área de drop */
+    input[type="file"]:hover + div {
+        border-color: #222f5b;
+        background-color: #e9d99a;
+    }
+    
+    /* Animación sutil para el icono de fénix */
+    @keyframes phoenix-glow {
+        0%, 100% { opacity: 0.8; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.05); }
+    }
+    
+    .phoenix-icon {
+        animation: phoenix-glow 3s infinite;
+    }
+</style>
+
+<script>
+    // Funcionalidad drag and drop
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropArea = document.querySelector('[class*="border-dashed"]');
+        const fileInput = document.getElementById('archivo');
+        
+        if (dropArea && fileInput) {
+            // Click para abrir el selector de archivos
+            dropArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // Previsualización del nombre del archivo seleccionado
+            fileInput.addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    const fileName = e.target.files[0].name;
+                    const preview = document.createElement('div');
+                    preview.className = 'mt-3 p-2 bg-ravenclaw/10 border border-ravenclaw/30 rounded text-center';
+                    preview.innerHTML = `<span class="material-symbols-outlined text-ravenclaw text-sm mr-1">description</span> ${fileName}`;
+                    dropArea.parentNode.appendChild(preview);
+                }
+            });
+            
+            // Drag and drop events
+            dropArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#222f5b';
+                this.style.backgroundColor = '#e9d99a';
+            });
+            
+            dropArea.addEventListener('dragleave', function() {
+                this.style.borderColor = '';
+                this.style.backgroundColor = '';
+            });
+            
+            dropArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '';
+                this.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    const fileName = e.dataTransfer.files[0].name;
+                    
+                    const preview = document.createElement('div');
+                    preview.className = 'mt-3 p-2 bg-ravenclaw/10 border border-ravenclaw/30 rounded text-center';
+                    preview.innerHTML = `<span class="material-symbols-outlined text-ravenclaw text-sm mr-1">description</span> ${fileName}`;
+                    dropArea.parentNode.appendChild(preview);
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
