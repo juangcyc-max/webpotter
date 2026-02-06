@@ -1,31 +1,39 @@
-Attribution-NonCommercial-ShareAlike 4.0 International
-    CC BY-NC-SA 4.0
-Deed
-Canonical URL https://creativecommons.org/licenses/by-nc-sa/4.0/
+# Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
 
-See the legal code
+**Canonical URL:** [https://creativecommons.org/licenses/by-nc-sa/4.0/](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
+*(See the full [legal code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) for complete terms.)*
 
-You are free to:
-Share — copy and redistribute the material in any medium or format
+---
 
-Adapt — remix, transform, and build upon the material
-The licensor cannot revoke these freedoms as long as you follow the license terms.
+## You are free to:
 
-Under the following terms:
-Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. 
+- **Share** — copy and redistribute the material in any medium or format.  
+- **Adapt** — remix, transform, and build upon the material.
 
-You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+The licensor cannot revoke these freedoms as long as you comply with the license terms.
 
-NonCommercial — You may not use the material for commercial purposes.
+---
 
-ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+## Under the following conditions:
 
-No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+- **Attribution**  
+  You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
 
-Notices:
-You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable exception or limitation.
+- **NonCommercial**  
+  You may not use the material for commercial purposes.
 
-No warranties are given. The license may not give you all of the permissions necessary for your intended use. 
+- **ShareAlike**  
+  If you remix, transform, or build upon the material, you must distribute your contributions under the **same license** as the original.
 
-For example, other rights such as publicity, privacy, or moral rights may limit how you use the material.
+- **No additional restrictions**  
+  You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
 
+---
+
+## Important Notices
+
+- You are not required to comply with the license for elements of the material that are in the public domain or where your use is permitted by an applicable exception or limitation.
+- **No warranties are given.** The license may not grant you all the permissions necessary for your intended use. Other rights—such as publicity, privacy, or moral rights—may limit how you use the material.
+
+> **Disclaimer:** This summary is not a license and has no legal value. It is intended solely to highlight key features of the actual license. Always review the full [legal code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) before using licensed material.  
+> Creative Commons is a nonprofit organization and does not provide legal advice. Use of this license does not create a lawyer-client relationship.
