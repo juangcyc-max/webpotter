@@ -48,7 +48,7 @@ pip install -r requirements.txt
 A. Crea un archivo .env en la raíz del proyecto:
 
 # .env
-DATABASE_URL=postgresql://postgres:123456@localhost:5432/inmogcyc
+DATABASE_URL=postgresql://postgres:123456@localhost:5432/formacion_web
 FLASK_APP=app.py
 FLASK_ENV=development
 SECRET_KEY=tu_clave_secreta_muy_larga_y_segura
@@ -63,7 +63,7 @@ C. Crea la base de datos y usuario:
 -- En psql o pgAdmin
 CREATE DATABASE inmogcyc;
 CREATE USER postgres WITH PASSWORD '123456';
-GRANT ALL PRIVILEGES ON DATABASE inmogcyc TO postgres;
+GRANT ALL PRIVILEGES ON DATABASE formacion_web TO postgres;
 
 4. Crea las tablas en PostgreSQL
 
@@ -74,7 +74,7 @@ from models import db, app
 
 with app.app_context():
     db.create_all()
-    print("✅ Tablas creadas en PostgreSQL: inmogcyc")
+    print("✅ Tablas creadas en PostgreSQL: formacion_web")
 
     python create_db.py
 
